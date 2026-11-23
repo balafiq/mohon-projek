@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Portal Agen - Permohonan Projek Pertanian</title>
+<link rel="stylesheet" href="style.css">
+<script src="config.js"></script>
+<style>
+  main { max-width: 820px; }
+  .bar-atas { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .bar-atas h2 { margin: 0; }
+  .bar-atas button { width: auto; }
+  .penapis { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 10px; margin-bottom: 12px; }
+  @media (max-width: 520px) { .penapis { grid-template-columns: minmax(0, 1fr); } }
+  .ringkasan { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; font-size: .85rem; }
+  .ringkasan span { background: #fff; border: 1px solid var(--garis); border-radius: 999px; padding: 4px 10px; }
+  .permohonan { border: 1px solid var(--garis); border-radius: 10px; padding: 14px; margin-bottom: 12px; background: #fff; }
+  .permohonan.sorot { border: 2px solid #25d366; }
+  .permohonan header { all: unset; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .permohonan h3 { margin: 0; font-size: 1.05rem; }
+  .ref { font-family: ui-monospace, monospace; font-size: .85rem; color: var(--kelabu); }
+  dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 2px 12px; margin: 10px 0; font-size: .95rem; }
+  dt { color: var(--kelabu); }
+  dd { margin: 0; overflow-wrap: anywhere; }
+  .lencana { font-size: .8rem; font-weight: 600; border-radius: 999px; padding: 3px 10px; white-space: nowrap; align-self: flex-start; }
+  .s-Baru { background: #e3f2fd; color: #0d47a1; }
+  .s-Sedang { background: #fff8e1; color: #6d4c00; }
+  .s-Lulus { background: var(--hijau-muda); color: var(--hijau-gelap); }
+  .s-Tidak { background: var(--merah-muda); color: var(--merah); }
+  .tindakan { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; align-items: center; }
+  @media (max-width: 520px) { .tindakan { grid-template-columns: minmax(0, 1fr); } }
+  .dokumen { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 12px; }
+  .dok { border: 1px solid var(--garis); border-radius: 8px; padding: 8px; font-size: .85rem; display: flex; flex-direction: column; gap: 6px; }
+  .dok img { width: 100%; height: 120px; object-fit: cover; border-radius: 6px; background: #eef2ef; }
+  .dok .pdf { height: 120px; display: grid; place-items: center; background: #eef2ef; border-radius: 6px; font-weight: 700; color: var(--merah); }
+  .dok a { color: var(--hijau); font-weight: 600; }
+  .dok .label { font-weight: 600; }
+  .kosong { text-align: center; color: var(--kelabu); padding: 24px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Portal Agen Pengembangan Tanaman</h1>
+  <p>Permohonan Projek Pertanian</p>
+</header>
+
+<main>
+  <!-- LOG MASUK -->
+  <section id="skrinLogin" class="kad">
+    <h2>Log Masuk Agen</h2>
+    <form id="borangLogin" novalidate>
+      <div class="soalan">
+        <label for="mukimLogin">Mukim</label>
+        <select id="mukimLogin"><option value="">-- Pilih mukim --</option></select>
+      </div>
+      <div class="soalan">
+        <label for="kataLaluan">Kata laluan</label>
+        <input type="password" id="kataLaluan" autocomplete="current-password">
+      </div>
+      <p id="ralatLogin" class="notis gagal tersembunyi" role="alert"></p>
+      <button type="submit" class="btn-utama" id="butangLogin">Log Masuk</button>
+    </form>
+    <p class="bantuan">Kata laluan diberikan oleh pentadbir sistem. Setiap mukim mempunyai kata laluan sendiri.</p>
+  </section>
+
+  <!-- SENARAI PERMOHONAN -->
+  <section id="skrinSenarai" class="tersembunyi">
+    <div class="bar-atas">
+      <h2 id="tajukMukim"></h2>
+      <div style="display:flex;gap:8px">
+        <button type="button" class="btn-kedua" id="muatSemula">Muat semula</button>
+        <button type="button" class="btn-kedua" id="logKeluar">Log keluar</button>
+      </div>
+    </div>
+    <div class="penapis">
+      <input type="search" id="cari" placeholder="Cari nama, lokasi, tanaman atau no. rujukan">
+      <select id="tapisStatus"><option value="">Semua status</option></select>
+    </div>
+    <div class="ringkasan" id="ringkasan"></div>
+    <p id="ralatSenarai" class="notis gagal tersembunyi" role="alert"></p>
+    <div id="senarai"></div>
+  </section>
+</main>
+
+<script>
+{
+  const $ = (id) => document.getElementById(id);
+  const parameterRef = new URLSearchParams(location.search).get("ref");
+  let sesi = null;              // { token, mukim, namaMukim }
+  let permohonan = [];
+  let senaraiStatus = [];
+  const urlBlob = [];
+
+  MUKIM.forEach((m, i) => {
+    const o = document.createElement("option");
+    o.value = i;
+    o.textContent = `${i + 1}. ${m.nama}`;
+    $("mukimLogin").appendChild(o);
+  });
+
+  function simpanSesi(s) {
+    sesi = s;
+    try { s ? sessionStorage.setItem("sesiAgen", JSON.stringify(s)) : sessionStorage.removeItem("sesiAgen"); } catch {}
+  }
+
+  function tunjuk(skrin) {
+    $("skrinLogin").classList.toggle("tersembunyi", skrin !== "login");
+    $("skrinSenarai").classList.toggle("tersembunyi", skrin !== "senarai");
+  }
+
+  function esc(s) {
+    return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  async function api(tindakan, data = {}) {
+    try {
+      return await panggilApi(tindakan, { token: sesi?.token, ...data });
+    } catch (err) {
+      if (/Sesi tamat/.test(err.message)) {
+        simpanSesi(null);
+        tunjuk("login");
+        $("ralatLogin").textContent = err.message;
+        $("ralatLogin").classList.remove("tersembunyi");
+      }
+      throw err;
+    }
+  }
+
+  // ---------- Log masuk ----------
+  $("borangLogin").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const ralat = $("ralatLogin");
+    ralat.classList.add("tersembunyi");
+    const mukim = $("mukimLogin").value;
+    const kataLaluan = $("kataLaluan").value;
+    if (!mukim || !kataLaluan) {
+      ralat.textContent = "Sila pilih mukim dan masukkan kata laluan.";
+      ralat.classList.remove("tersembunyi");
+      return;
+    }
+    if (!API_URL) {
+      ralat.textContent = "Sistem belum disediakan (API_URL kosong dalam config.js).";
+      ralat.classList.remove("tersembunyi");
+      return;
+    }
+    const b = $("butangLogin");
+    b.disabled = true;
+    b.innerHTML = '<span class="muat"></span>Log masuk...';
+    try {
+      const r = await panggilApi("login", { mukim: Number(mukim), kataLaluan });
+      simpanSesi({ token: r.token, mukim: r.mukim, namaMukim: r.namaMukim });
+      $("kataLaluan").value = "";
+      await bukaSenarai();
+    } catch (err) {
+      ralat.textContent = err.message;
+      ralat.classList.remove("tersembunyi");
+    } finally {
+      b.disabled = false;
+      b.textContent = "Log Masuk";
+    }
+  });
+
+  $("logKeluar").addEventListener("click", async () => {
+    try { await panggilApi("logout", { token: sesi?.token }); } catch {}
+    simpanSesi(null);
+    urlBlob.splice(0).forEach((u) => URL.revokeObjectURL(u));
+    $("senarai").innerHTML = "";
+    tunjuk("login");
+  });
+
+  // ---------- Senarai ----------
+  async function bukaSenarai() {
+    tunjuk("senarai");
+    $("tajukMukim").textContent = "Mukim " + sesi.namaMukim;
+    await muatSenarai();
+  }
+
+  async function muatSenarai() {
+    $("ralatSenarai").classList.add("tersembunyi");
+    $("senarai").innerHTML = '<p class="kosong"><span class="muat"></span>Memuatkan permohonan...</p>';
+    try {
+      const r = await api("senarai");
+      permohonan = r.permohonan;
+      if (!senaraiStatus.length) {
+        senaraiStatus = r.senaraiStatus;
+        senaraiStatus.forEach((s) => $("tapisStatus").insertAdjacentHTML("beforeend", `<option>${esc(s)}</option>`));
+      }
+      lukis();
+      if (parameterRef) {
+        const kad = document.querySelector(`[data-ref="${CSS.escape(parameterRef)}"]`);
+        if (kad) {
+          kad.classList.add("sorot");
+          kad.scrollIntoView({ behavior: "smooth", block: "start" });
+          bukaDokumen(parameterRef);
+        }
+      }
+    } catch (err) {
+      $("senarai").innerHTML = "";
+      $("ralatSenarai").textContent = err.message;
+      $("ralatSenarai").classList.remove("tersembunyi");
+    }
+  }
+
+  function kelasStatus(s) { return "s-" + String(s).split(" ")[0]; }
+
+  function lukisRingkasan() {
+    const kiraan = {};
+    permohonan.forEach((p) => (kiraan[p.status] = (kiraan[p.status] || 0) + 1));
+    $("ringkasan").innerHTML = `<span>Jumlah: <b>${permohonan.length}</b></span>` +
+      senaraiStatus.map((s) => `<span>${esc(s)}: <b>${kiraan[s] || 0}</b></span>`).join("");
+  }
+
+  function lukis() {
+    const q = $("cari").value.trim().toLowerCase();
+    const st = $("tapisStatus").value;
+    lukisRingkasan();
+
+    const tapis = permohonan.filter((p) =>
+      (!st || p.status === st) &&
+      (!q || [p.nama, p.lokasi, p.tanaman, p.rujukan].join(" ").toLowerCase().includes(q)));
+
+    if (!tapis.length) {
+      $("senarai").innerHTML = `<p class="kosong">${permohonan.length ? "Tiada permohonan sepadan." : "Belum ada permohonan untuk mukim ini."}</p>`;
+      return;
+    }
+    $("senarai").innerHTML = tapis.map((p) => `
+      <article class="permohonan" data-ref="${esc(p.rujukan)}">
+        <header>
+          <div>
+            <h3>${esc(p.nama)}</h3>
+            <span class="ref">${esc(p.rujukan)} · ${new Date(p.tarikh).toLocaleString("ms-MY", { dateStyle: "medium", timeStyle: "short" })}</span>
+          </div>
+          <span class="lencana ${kelasStatus(p.status)}">${esc(p.status)}</span>
+        </header>
+        <dl>
+          <dt>Lokasi</dt><dd>${esc(p.lokasi)}</dd>
+          <dt>Tanaman</dt><dd>${esc(p.tanaman)}</dd>
+          <dt>Dokumen</dt><dd>${p.fail.length} fail</dd>
+        </dl>
+        <div class="tindakan">
+          <button type="button" class="btn-utama" data-dokumen="${esc(p.rujukan)}">Lihat dokumen</button>
+          <select data-status="${esc(p.rujukan)}" aria-label="Tukar status">
+            ${senaraiStatus.map((s) => `<option ${s === p.status ? "selected" : ""}>${esc(s)}</option>`).join("")}
+          </select>
+        </div>
+        <div class="dokumen" id="dok-${esc(p.rujukan)}"></div>
+      </article>`).join("");
+  }
+
+  $("cari").addEventListener("input", lukis);
+  $("tapisStatus").addEventListener("change", lukis);
+  $("muatSemula").addEventListener("click", muatSenarai);
+
+  $("senarai").addEventListener("click", (e) => {
+    const ref = e.target.closest("[data-dokumen]")?.dataset.dokumen;
+    if (ref) bukaDokumen(ref);
+  });
+
+  $("senarai").addEventListener("change", async (e) => {
+    const ref = e.target.dataset.status;
+    if (!ref) return;
+    const p = permohonan.find((x) => x.rujukan === ref);
+    const lama = p.status;
+    e.target.disabled = true;
+    try {
+      await api("status", { rujukan: ref, status: e.target.value });
+      p.status = e.target.value;
+      e.target.disabled = false;
+      const lencana = e.target.closest(".permohonan").querySelector(".lencana");
+      lencana.className = "lencana " + kelasStatus(p.status);
+      lencana.textContent = p.status;
+      lukisRingkasan();
+    } catch (err) {
+      e.target.value = lama;
+      e.target.disabled = false;
+      $("ralatSenarai").textContent = "Gagal menukar status: " + err.message;
+      $("ralatSenarai").classList.remove("tersembunyi");
+    }
+  });
+
+  // ---------- Dokumen ----------
+  async function bukaDokumen(ref) {
+    const p = permohonan.find((x) => x.rujukan === ref);
+    const kotak = $("dok-" + ref);
+    if (!p || !kotak || kotak.dataset.dimuat) return;
+    kotak.dataset.dimuat = "1";
+    const butang = document.querySelector(`[data-dokumen="${CSS.escape(ref)}"]`);
+    if (butang) butang.classList.add("tersembunyi");
+
+    kotak.innerHTML = p.fail.map((f) => `
+      <div class="dok" id="f-${esc(f.id)}">
+        <span class="label">${esc(f.jenis)}</span>
+        <div class="pdf"><span class="muat"></span></div>
+      </div>`).join("");
+
+    for (const f of p.fail) {
+      const el = document.getElementById("f-" + f.id);
+      try {
+        const r = await api("fail", { rujukan: ref, idFail: f.id });
+        const bait = Uint8Array.from(atob(r.data), (c) => c.charCodeAt(0));
+        const url = URL.createObjectURL(new Blob([bait], { type: r.mimeType }));
+        urlBlob.push(url);
+        const pratonton = r.mimeType.startsWith("image/")
+          ? `<a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="${esc(f.jenis)}"></a>`
+          : `<div class="pdf">PDF</div>`;
+        el.innerHTML = `
+          <span class="label">${esc(f.jenis)}</span>
+          ${pratonton}
+          <a href="${url}" target="_blank" rel="noopener">Buka</a>
+          <a href="${url}" download="${esc(r.nama)}">Muat turun</a>`;
+      } catch (err) {
+        el.innerHTML = `<span class="label">${esc(f.jenis)}</span><span class="ralat tunjuk">${esc(err.message)}</span>`;
+      }
+    }
+  }
+
+  // ---------- Mula ----------
+  try { sesi = JSON.parse(sessionStorage.getItem("sesiAgen") || "null"); } catch {}
+  if (sesi && API_URL) bukaSenarai();
+  else tunjuk("login");
+}
+</script>
+</body>
+</html>

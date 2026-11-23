@@ -4,112 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Permohonan Projek Pertanian</title>
-<style>
-  :root {
-    --hijau: #2e7d32;
-    --hijau-gelap: #1b5e20;
-    --hijau-muda: #e8f5e9;
-    --merah: #c62828;
-    --merah-muda: #ffebee;
-    --kelabu: #5f6b66;
-    --garis: #d5ddd8;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: #f3f6f4;
-    color: #1f2a24;
-    line-height: 1.5;
-  }
-  header {
-    background: var(--hijau);
-    color: #fff;
-    padding: 20px 16px;
-    text-align: center;
-  }
-  header h1 { margin: 0; font-size: 1.35rem; }
-  header p { margin: 4px 0 0; opacity: .9; font-size: .95rem; }
-  main { max-width: 640px; margin: 0 auto; padding: 16px; }
-  .kad {
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.08);
-    margin-bottom: 16px;
-  }
-  .langkah { color: var(--kelabu); font-size: .85rem; margin: 0 0 4px; text-transform: uppercase; letter-spacing: .04em; }
-  h2 { margin: 0 0 16px; font-size: 1.2rem; }
-  .soalan { margin-bottom: 20px; }
-  .soalan > label, .soalan > .tajuk { display: block; font-weight: 600; margin-bottom: 8px; }
-  .pilihan { display: flex; gap: 10px; flex-wrap: wrap; }
-  .pilihan label {
-    flex: 1 1 140px;
-    border: 1px solid var(--garis);
-    border-radius: 8px;
-    padding: 10px 12px;
-    cursor: pointer;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .pilihan label:has(input:checked) { border-color: var(--hijau); background: var(--hijau-muda); }
-  input[type=text], input[type=number], select, textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--garis);
-    border-radius: 8px;
-    font: inherit;
-    background: #fff;
-  }
-  input:focus, select:focus, textarea:focus { outline: 2px solid var(--hijau); outline-offset: 1px; }
-  input[type=file] { width: 100%; font: inherit; }
-  .bantuan { font-size: .85rem; color: var(--kelabu); margin-top: 4px; }
-  button {
-    font: inherit;
-    font-weight: 600;
-    border: 0;
-    border-radius: 8px;
-    padding: 12px 18px;
-    cursor: pointer;
-    width: 100%;
-  }
-  .btn-utama { background: var(--hijau); color: #fff; }
-  .btn-utama:hover { background: var(--hijau-gelap); }
-  .btn-wa { background: #25d366; color: #fff; }
-  .btn-kedua { background: #fff; color: var(--hijau); border: 1px solid var(--hijau); }
-  .btn-teks { background: none; color: var(--kelabu); text-decoration: underline; padding: 8px; }
-  .butang-kumpulan { display: grid; gap: 10px; margin-top: 8px; }
-  .notis { border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; }
-  .notis.lulus { background: var(--hijau-muda); color: var(--hijau-gelap); border: 1px solid #a5d6a7; }
-  .notis.gagal { background: var(--merah-muda); color: var(--merah); border: 1px solid #ef9a9a; }
-  .notis h3 { margin: 0 0 4px; font-size: 1.1rem; }
-  .notis ul { margin: 6px 0 0; padding-left: 20px; }
-  .ralat { color: var(--merah); font-size: .85rem; margin-top: 4px; display: none; }
-  .ralat.tunjuk { display: block; }
-  .pratonton { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-  .pratonton img { width: 72px; height: 72px; object-fit: cover; border-radius: 6px; border: 1px solid var(--garis); }
-  .pratonton .fail { font-size: .8rem; padding: 6px 8px; background: #eef2ef; border-radius: 6px; }
-  pre.mesej {
-    white-space: pre-wrap;
-    background: #f0f4f1;
-    border-left: 4px solid #25d366;
-    padding: 12px 14px;
-    border-radius: 6px;
-    font-family: inherit;
-    margin: 0 0 12px;
-  }
-  .info-agen { font-size: .95rem; margin-bottom: 12px; }
-  ol.arahan { padding-left: 20px; margin: 0 0 12px; }
-  .tersembunyi { display: none !important; }
-  .notis.amaran { background: #fff8e1; color: #6d4c00; border: 1px solid #ffe082; }
-  .sub-langkah { border: 1px solid var(--garis); border-radius: 10px; padding: 14px; margin-bottom: 14px; }
-  .sub-langkah.selesai { border-color: #a5d6a7; background: #f6fbf6; }
-  .sub-langkah.aktif { border: 2px solid #25d366; }
-  .sub-langkah h3 { margin: 0 0 10px; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
-  .nombor { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--hijau); color: #fff; font-size: .9rem; }
-  .selesai .nombor { background: #25d366; }
-  a.btn { display: block; text-align: center; text-decoration: none; border-radius: 8px; padding: 12px 18px; font-weight: 600; }
-  .senarai-fail { margin: 0 0 12px; padding-left: 20px; font-size: .9rem; }
-</style>
+<link rel="stylesheet" href="style.css">
+<script src="config.js"></script>
 </head>
 <body>
 <header>
@@ -219,13 +115,35 @@
       </div>
 
       <div class="butang-kumpulan">
-        <button type="submit" class="btn-utama">Teruskan</button>
+        <p id="ralatHantar" class="notis gagal tersembunyi" role="alert"></p>
+        <button type="submit" class="btn-utama" id="butangHantar">Hantar Permohonan</button>
         <button type="button" class="btn-teks" id="kembaliLayak">Kembali ke semakan kelayakan</button>
       </div>
     </form>
   </section>
 
-  <!-- LANGKAH 3: HANTAR KE WHATSAPP -->
+  <!-- LANGKAH 3 (DALAM TALIAN): PERMOHONAN BERJAYA -->
+  <section id="langkah3Online" class="kad tersembunyi">
+    <p class="langkah">Langkah 3 daripada 3</p>
+    <div class="notis lulus" role="status">
+      <h3>Permohonan berjaya dihantar</h3>
+      No. rujukan anda: <strong id="noRujukan"></strong><br>
+      Sila simpan nombor ini untuk semakan.
+    </div>
+    <h2>Maklumkan kepada Agen Pengembangan Tanaman</h2>
+    <p class="info-agen">
+      Mukim: <strong id="paparMukimOnline"></strong><br>
+      No. WhatsApp agen: <strong id="paparNomborOnline"></strong>
+    </p>
+    <p>Dokumen anda telah disimpan dengan selamat dan hanya boleh dilihat oleh agen selepas log masuk. Tekan butang di bawah untuk menghantar mesej makluman kepada agen.</p>
+    <pre class="mesej" id="paparMesejOnline"></pre>
+    <div class="butang-kumpulan">
+      <a id="pautanWaOnline" class="btn btn-wa" target="_blank" rel="noopener">Hantar Mesej ke WhatsApp Agen</a>
+      <button type="button" class="btn-teks" id="mohonBaru">Buat permohonan baharu</button>
+    </div>
+  </section>
+
+  <!-- LANGKAH 3 (MANUAL): HANTAR KE WHATSAPP -->
   <section id="langkah3" class="kad tersembunyi">
     <p class="langkah">Langkah 3 daripada 3</p>
     <h2>Hantar kepada Agen Pengembangan Tanaman</h2>
@@ -271,20 +189,9 @@
 </main>
 
 <script>
-  // Senarai mukim dan nombor WhatsApp Agen Pengembangan Tanaman
-  const MUKIM = [
-    { nama: "Sungai Manik / Labu Kubong", telefon: "0193776984" },
-    { nama: "Sungai Durian",              telefon: "0193074977" },
-    { nama: "Durian Sebatang",            telefon: "01113297751" },
-    { nama: "Changkat Jong",              telefon: "0108475362" },
-    { nama: "Hutan Melintang",            telefon: "0165237280" },
-    { nama: "Bagan Datuk",                telefon: "0134018473" },
-    { nama: "Rungkup",                    telefon: "0194795013" },
-    { nama: "Teluk Bharu",                telefon: "0134734476" },
-  ];
 
   const $ = (id) => document.getElementById(id);
-  const langkah = [$("langkah1"), $("langkah2"), $("langkah3")];
+  const langkah = [$("langkah1"), $("langkah2"), $("langkah3"), $("langkah3Online")];
 
   function tunjukLangkah(n) {
     langkah.forEach((el, i) => el.classList.toggle("tersembunyi", i !== n - 1));
@@ -365,16 +272,68 @@
     document.querySelector(`.ralat[data-untuk="${id}"]`).classList.toggle("tunjuk", ada);
   }
 
-  function binaMesej(nama, lokasi, tanaman) {
-    return [
+  function binaMesej(nama, lokasi, tanaman, rujukan) {
+    const baris = [
       "Assalamualaikum/ salam sejahtera",
       `Saya ${nama},`,
       `Lokasi di ${lokasi}`,
       `Sedang mengusahakan tanaman ${tanaman}`,
       `Di ${lokasi}`,
       "Berikut dikepilkan dokumen untuk rujukan Tuan/ Puan.",
-      "Terima kasih",
-    ].join("\n");
+    ];
+    if (rujukan) {
+      const portal = new URL("agen.html", location.href);
+      portal.search = "?ref=" + encodeURIComponent(rujukan);
+      baris.push(`No. rujukan: ${rujukan}`, `Dokumen: ${portal.href}`);
+    }
+    baris.push("Terima kasih");
+    return baris.join("\n");
+  }
+
+  function pautanWa(telefon, mesej) {
+    return `https://wa.me/${formatAntarabangsa(telefon)}?text=${encodeURIComponent(mesej)}`;
+  }
+
+  // ---------- Sediakan fail untuk dimuat naik ----------
+  const MAKS_SAIZ = 8 * 1024 * 1024;
+
+  function bacaBase64(blob) {
+    return new Promise((ok, gagal) => {
+      const r = new FileReader();
+      r.onload = () => ok(String(r.result).split(",")[1]);
+      r.onerror = () => gagal(new Error("Gagal membaca fail."));
+      r.readAsDataURL(blob);
+    });
+  }
+
+  // Kecilkan gambar (maks 1600px, JPEG) supaya muat naik lebih cepat
+  async function kecilkanGambar(fail) {
+    const bmp = await createImageBitmap(fail);
+    const skala = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    const c = document.createElement("canvas");
+    c.width = Math.round(bmp.width * skala);
+    c.height = Math.round(bmp.height * skala);
+    c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+    bmp.close?.();
+    const blob = await new Promise((ok) => c.toBlob(ok, "image/jpeg", 0.8));
+    if (!blob) throw new Error("toBlob gagal");
+    return blob;
+  }
+
+  async function sediaFail(jenis, fail) {
+    let blob = fail, nama = fail.name, mimeType = fail.type || "application/octet-stream";
+    if (mimeType.startsWith("image/")) {
+      try {
+        blob = await kecilkanGambar(fail);
+        nama = fail.name.replace(/\.[^.]+$/, "") + ".jpg";
+        mimeType = "image/jpeg";
+      } catch { /* hantar fail asal jika tidak dapat dikecilkan */ }
+    }
+    if (!mimeType.startsWith("image/") && mimeType !== "application/pdf") {
+      throw new Error(`Fail "${fail.name}" bukan gambar atau PDF.`);
+    }
+    if (blob.size > MAKS_SAIZ) throw new Error(`Fail "${fail.name}" terlalu besar (maksimum 8 MB).`);
+    return { jenis, nama, mimeType, data: await bacaBase64(blob) };
   }
 
   let semuaFail = [];
@@ -408,17 +367,52 @@
       return;
     }
 
-    const mukim = MUKIM[Number(mukimIdx)];
+    if (API_URL) hantarKePelayan(nama, lokasi, tanaman, Number(mukimIdx));
+    else tunjukManual(nama, lokasi, tanaman, Number(mukimIdx));
+  });
+
+  async function hantarKePelayan(nama, lokasi, tanaman, mukimIdx) {
+    const butang = $("butangHantar");
+    const ralat = $("ralatHantar");
+    ralat.classList.add("tersembunyi");
+    butang.disabled = true;
+    butang.innerHTML = '<span class="muat"></span>Menyediakan dokumen...';
+    try {
+      const fail = [];
+      for (const id of MEDAN_FAIL) {
+        for (const f of $(id).files) fail.push(await sediaFail(id, f));
+      }
+      butang.innerHTML = '<span class="muat"></span>Menghantar permohonan... (jangan tutup halaman)';
+      const { rujukan } = await panggilApi("mohon", { nama, lokasi, tanaman, mukim: mukimIdx, fail });
+
+      const mukim = MUKIM[mukimIdx];
+      const mesej = binaMesej(nama, lokasi, tanaman, rujukan);
+      $("noRujukan").textContent = rujukan;
+      $("paparMukimOnline").textContent = mukim.nama;
+      $("paparNomborOnline").textContent = mukim.telefon;
+      $("paparMesejOnline").textContent = mesej;
+      $("pautanWaOnline").href = pautanWa(mukim.telefon, mesej);
+      tunjukLangkah(4);
+    } catch (err) {
+      ralat.textContent = "Permohonan tidak berjaya dihantar: " + err.message + " Sila cuba lagi.";
+      ralat.classList.remove("tersembunyi");
+      ralat.scrollIntoView({ behavior: "smooth", block: "center" });
+    } finally {
+      butang.disabled = false;
+      butang.textContent = "Hantar Permohonan";
+    }
+  }
+
+  function tunjukManual(nama, lokasi, tanaman, mukimIdx) {
+    const mukim = MUKIM[mukimIdx];
     mesejSemasa = binaMesej(nama, lokasi, tanaman);
     semuaFail = MEDAN_FAIL.flatMap((id) => [...$(id).files]);
 
     $("paparMukim").textContent = mukim.nama;
     $("paparNombor").textContent = mukim.telefon;
     $("paparMesej").textContent = mesejSemasa;
-    $("pautanWa").href =
-      `https://wa.me/${formatAntarabangsa(mukim.telefon)}?text=${encodeURIComponent(mesejSemasa)}`;
+    $("pautanWa").href = pautanWa(mukim.telefon, mesejSemasa);
 
-    const bolehKongsi = navigator.canShare && navigator.canShare({ files: semuaFail });
     $("bilFail").textContent = semuaFail.length;
     document.querySelectorAll(".noAgen").forEach((el) => (el.textContent = mukim.telefon));
     $("senaraiFail").innerHTML = "";
@@ -439,6 +433,13 @@
     nomborSemasa = mukim.telefon;
 
     tunjukLangkah(3);
+  }
+
+  $("mohonBaru").addEventListener("click", () => {
+    $("borangLayak").reset();
+    $("borangMohon").reset();
+    document.querySelectorAll(".pratonton").forEach((el) => (el.innerHTML = ""));
+    tunjukLangkah(1);
   });
 
   $("kembaliLayak").addEventListener("click", () => tunjukLangkah(1));
