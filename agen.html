@@ -48,6 +48,23 @@
   .dok .pautan { display: flex; justify-content: space-between; padding: 0 4px; }
   .dok a { color: var(--hijau-gelap); font-weight: 800; text-decoration: none; }
   .kosong { text-align: center; color: var(--kelabu); padding: 30px 0; }
+  @media (max-width: 480px) {
+    .bar-atas { gap: 8px; margin-bottom: 10px; }
+    .bar-atas h2 { font-size: 1rem; gap: 6px; }
+    .ikon { width: 40px; min-height: 40px; }
+    #logKeluar { min-height: 40px !important; padding: 6px 12px !important; font-size: .9rem; }
+    .cip-tapis { margin: 10px 0 0; gap: 6px; }
+    .cip-tapis button { min-height: 34px; padding: 4px 10px; font-size: .82rem; }
+    .permohonan { padding: 14px; border-radius: 18px; margin-bottom: 10px; }
+    .permohonan h3 { font-size: 1rem; }
+    .butir { margin: 8px 0 10px; font-size: .9rem; }
+    .tindakan { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+    .tindakan select { min-height: 44px; }
+    .tindakan button { min-height: 44px; font-size: .9rem; }
+    .dokumen { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .dok { padding: 6px; border-radius: 12px; font-size: .8rem; }
+    .dok img, .dok .pdf { height: 84px; border-radius: 8px; }
+  }
 </style>
 </head>
 <body>
@@ -82,7 +99,7 @@
   <section id="skrinSenarai" class="tersembunyi">
     <div class="kad" style="padding:16px">
       <div class="bar-atas">
-        <h2><i data-emoji="1f69c" data-alt="🚜" class="kecil"></i><span id="tajukMukim"></span></h2>
+        <h2><i data-emoji="1f33f" data-alt="🌿" class="kecil"></i><span id="tajukMukim"></span></h2>
         <button type="button" class="btn-kedua ikon" id="muatSemula" title="Muat semula" aria-label="Muat semula">↻</button>
         <button type="button" class="btn-kedua" id="logKeluar" style="width:auto;min-height:44px;padding:8px 16px">Keluar</button>
       </div>

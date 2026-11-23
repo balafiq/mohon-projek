@@ -207,3 +207,50 @@ pre.mesej {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- Telefon ---------- */
+@media (max-width: 480px) {
+  body { font-size: 15px; }
+  .kepala {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 16px 40px;
+    border-radius: 0 0 24px 24px;
+    background:
+      radial-gradient(circle at 94% 10%, var(--kuning) 0 18px, transparent 19px),
+      linear-gradient(160deg, #46b968, var(--hijau-gelap));
+  }
+  .kepala .emoji { width: 34px; height: 34px; }
+  .kepala h1 { margin: 0; font-size: 1.15rem; }
+  main { margin-top: -28px; padding: 0 12px 28px; }
+  .kad { padding: 18px 16px; border-radius: 18px; margin-bottom: 12px; }
+  h2 { font-size: 1.12rem; }
+  .sub { margin-bottom: 14px; font-size: .92rem; }
+  .emoji.besar { width: 60px; height: 60px; margin-bottom: 4px; }
+  .langkah-bar { margin-bottom: 12px; gap: 4px; }
+  .langkah-bar span { font-size: .72rem; padding: 3px 10px; }
+  .soalan { margin-bottom: 14px; }
+  .soalan > label, .soalan > .tajuk { margin-bottom: 6px; font-size: .95rem; }
+  .pilihan { gap: 8px; }
+  .pilihan label { padding: 9px 8px; border-radius: 14px; font-size: .95rem; }
+  input[type=text], input[type=search], input[type=password], select {
+    min-height: 46px; padding: 10px 14px; border-radius: 14px; font-size: 16px;
+  }
+  button, .btn { min-height: 48px; font-size: 1rem; padding: 10px 16px; }
+  .btn-teks { min-height: 40px; }
+
+  /* Kotak dokumen jadi baris mendatar */
+  .muat-naik-grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .muat-naik {
+    flex-direction: row; justify-content: flex-start; gap: 10px;
+    padding: 8px 12px; border-radius: 14px; text-align: left;
+  }
+  .muat-naik .emoji { width: 28px; height: 28px; flex: none; }
+  .mn-tajuk { font-size: .92rem; flex: 1; }
+  .mn-status { font-size: .8rem; flex: none; }
+  .pratonton { flex: none; flex-wrap: nowrap; }
+  .pratonton img { width: 26px; height: 26px; }
+
+  .cip { font-size: 1rem; padding: 5px 12px; }
+  .agen { margin: 12px 0; padding: 10px 12px; }
+  .notis { padding: 12px 14px; font-size: .92rem; }
+}
