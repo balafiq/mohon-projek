@@ -99,7 +99,16 @@
   }
   .info-agen { font-size: .95rem; margin-bottom: 12px; }
   ol.arahan { padding-left: 20px; margin: 0 0 12px; }
-  .tersembunyi { display: none; }
+  .tersembunyi { display: none !important; }
+  .notis.amaran { background: #fff8e1; color: #6d4c00; border: 1px solid #ffe082; }
+  .sub-langkah { border: 1px solid var(--garis); border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+  .sub-langkah.selesai { border-color: #a5d6a7; background: #f6fbf6; }
+  .sub-langkah.aktif { border: 2px solid #25d366; }
+  .sub-langkah h3 { margin: 0 0 10px; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+  .nombor { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--hijau); color: #fff; font-size: .9rem; }
+  .selesai .nombor { background: #25d366; }
+  a.btn { display: block; text-align: center; text-decoration: none; border-radius: 8px; padding: 12px 18px; font-weight: 600; }
+  .senarai-fail { margin: 0 0 12px; padding-left: 20px; font-size: .9rem; }
 </style>
 </head>
 <body>
@@ -225,18 +234,37 @@
       No. WhatsApp agen: <strong id="paparNombor"></strong>
     </p>
 
-    <p><strong>Mesej yang akan dihantar:</strong></p>
-    <pre class="mesej" id="paparMesej"></pre>
+    <div class="notis amaran">
+      WhatsApp tidak membenarkan mesej dan dokumen dihantar sekali melalui pautan.
+      Sila buat <strong>kedua-dua langkah A dan B</strong> di bawah supaya permohonan lengkap sampai kepada agen.
+    </div>
 
-    <ol class="arahan">
-      <li>Tekan <strong>Hantar Mesej ke WhatsApp</strong>. Chat bersama agen akan dibuka dengan mesej siap ditulis. Tekan hantar.</li>
-      <li>Tekan <strong>Kongsi Dokumen</strong> dan pilih WhatsApp, kemudian pilih chat agen yang sama untuk menghantar gambar projek, kad pengenalan dan geran tanah.</li>
-    </ol>
-    <p class="bantuan" id="notaKongsi"></p>
+    <div class="sub-langkah" id="kotakA">
+      <h3><span class="nombor">A</span> Hantar mesej</h3>
+      <pre class="mesej" id="paparMesej"></pre>
+      <a id="pautanWa" class="btn btn-wa" target="_blank" rel="noopener">Buka WhatsApp &amp; Hantar Mesej</a>
+      <p class="bantuan">WhatsApp akan dibuka dengan mesej siap ditulis. Tekan butang hantar di WhatsApp, kemudian <strong>kembali ke halaman ini</strong> untuk langkah B.</p>
+    </div>
+
+    <div class="sub-langkah" id="kotakB">
+      <h3><span class="nombor">B</span> <span>Hantar dokumen (<span id="bilFail"></span> fail)</span></h3>
+      <ul class="senarai-fail" id="senaraiFail"></ul>
+      <div id="bolehKongsi">
+        <button type="button" class="btn-wa" id="kongsiDokumen">Hantar Dokumen ke WhatsApp</button>
+        <p class="bantuan">Pilih <strong>WhatsApp</strong>, kemudian pilih chat agen (<strong class="noAgen"></strong>). Chat ini akan berada di bahagian atas senarai selepas langkah A.</p>
+      </div>
+      <div id="tidakBolehKongsi" class="notis gagal tersembunyi">
+        Pelayar ini tidak dapat menghantar fail terus ke WhatsApp.
+        <ul>
+          <li>Jika anda membuka pautan ini dari dalam WhatsApp atau Facebook, tekan menu <strong>⋮</strong> dan pilih <strong>Buka dalam Chrome</strong> / <strong>Safari</strong>, kemudian isi semula.</li>
+          <li>Atau, dalam chat agen di WhatsApp, tekan ikon <strong>📎</strong> dan lampirkan fail di atas secara manual.</li>
+        </ul>
+      </div>
+      <p id="statusKongsi" class="bantuan"></p>
+    </div>
 
     <div class="butang-kumpulan">
-      <a id="pautanWa" target="_blank" rel="noopener"><button type="button" class="btn-wa">1. Hantar Mesej ke WhatsApp</button></a>
-      <button type="button" class="btn-kedua" id="kongsiDokumen">2. Kongsi Dokumen</button>
+      <button type="button" class="btn-kedua" id="salinNombor">Salin nombor agen</button>
       <button type="button" class="btn-teks" id="kembaliBorang">Kembali ubah maklumat</button>
     </div>
   </section>
@@ -351,6 +379,12 @@
 
   let semuaFail = [];
   let mesejSemasa = "";
+  let nomborSemasa = "";
+
+  function bolehKongsiFail() {
+    try { return !!(navigator.canShare && navigator.canShare({ files: semuaFail })); }
+    catch { return false; }
+  }
 
   $("borangMohon").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -385,9 +419,24 @@
       `https://wa.me/${formatAntarabangsa(mukim.telefon)}?text=${encodeURIComponent(mesejSemasa)}`;
 
     const bolehKongsi = navigator.canShare && navigator.canShare({ files: semuaFail });
-    $("notaKongsi").textContent = bolehKongsi
-      ? ""
-      : "Peranti/pelayar ini tidak menyokong perkongsian fail terus. Sila lampirkan dokumen secara manual dalam chat WhatsApp agen (ikon klip kertas 📎).";
+    $("bilFail").textContent = semuaFail.length;
+    document.querySelectorAll(".noAgen").forEach((el) => (el.textContent = mukim.telefon));
+    $("senaraiFail").innerHTML = "";
+    MEDAN_FAIL.forEach((id) => {
+      const label = { gambarProjek: "Gambar projek", kadPengenalan: "Kad pengenalan", geranTanah: "Geran tanah" }[id];
+      [...$(id).files].forEach((f) => {
+        const li = document.createElement("li");
+        li.textContent = `${label}: ${f.name}`;
+        $("senaraiFail").appendChild(li);
+      });
+    });
+    const boleh = bolehKongsiFail();
+    $("bolehKongsi").classList.toggle("tersembunyi", !boleh);
+    $("tidakBolehKongsi").classList.toggle("tersembunyi", boleh);
+    $("statusKongsi").textContent = "";
+    $("kotakA").className = "sub-langkah aktif";
+    $("kotakB").className = "sub-langkah";
+    nomborSemasa = mukim.telefon;
 
     tunjukLangkah(3);
   });
@@ -395,15 +444,29 @@
   $("kembaliLayak").addEventListener("click", () => tunjukLangkah(1));
 
   // ---------- Langkah 3: Hantar ----------
+  $("pautanWa").addEventListener("click", () => {
+    $("kotakA").className = "sub-langkah selesai";
+    $("kotakB").className = "sub-langkah aktif";
+  });
+
   $("kongsiDokumen").addEventListener("click", async () => {
-    if (!(navigator.canShare && navigator.canShare({ files: semuaFail }))) {
-      alert("Perkongsian fail tidak disokong pada peranti ini. Sila lampirkan gambar projek, kad pengenalan dan geran tanah secara manual dalam chat WhatsApp agen.");
-      return;
-    }
+    const st = $("statusKongsi");
     try {
-      await navigator.share({ files: semuaFail, title: "Dokumen Permohonan Projek Pertanian" });
+      await navigator.share({ files: semuaFail });
+      $("kotakB").className = "sub-langkah selesai";
+      st.textContent = "Dokumen telah dikongsi. Pastikan ia sampai dalam chat agen.";
     } catch (err) {
-      if (err.name !== "AbortError") alert("Gagal berkongsi dokumen: " + err.message);
+      if (err.name === "AbortError") return;
+      st.textContent = "Gagal menghantar dokumen (" + err.message + "). Sila lampirkan secara manual dalam chat agen menggunakan ikon 📎.";
+    }
+  });
+
+  $("salinNombor").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(nomborSemasa);
+      $("salinNombor").textContent = "Nombor disalin: " + nomborSemasa;
+    } catch {
+      $("salinNombor").textContent = "No. agen: " + nomborSemasa;
     }
   });
 
