@@ -3,224 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Permohonan Projek Pertanian</title>
+<meta name="theme-color" content="#3aa65b">
+<title>Mohon Projek Pertanian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap">
 <link rel="stylesheet" href="style.css">
 <script src="config.js"></script>
+<script src="ui.js"></script>
 </head>
 <body>
-<header>
-  <h1>Permohonan Projek Pertanian</h1>
-  <p>Daerah Hilir Perak &amp; Bagan Datuk</p>
+<header class="kepala">
+  <i data-emoji="1f331" data-alt="🌱"></i>
+  <h1>Mohon Projek Pertanian</h1>
 </header>
 
 <main>
-  <!-- LANGKAH 1: SEMAKAN KELAYAKAN -->
+  <!-- 1. SEMAK KELAYAKAN -->
   <section id="langkah1" class="kad">
-    <p class="langkah">Langkah 1 daripada 3</p>
-    <h2>Semakan Kelayakan</h2>
+    <div class="langkah-bar"><span class="aktif">1 Semak</span><span>2 Isi</span><span>3 Hantar</span></div>
+    <div class="tengah">
+      <i data-emoji="1f914" data-alt="🤔" class="besar"></i>
+      <h2>Jom semak kelayakan</h2>
+      <p class="sub">Jawab 3 soalan ringkas</p>
+    </div>
+
     <form id="borangLayak" novalidate>
       <div class="soalan">
-        <span class="tajuk">1. Apakah status tanah projek anda?</span>
+        <span class="tajuk">Status tanah</span>
         <div class="pilihan">
-          <label><input type="radio" name="statusTanah" value="pertanian"> Pertanian</label>
-          <label><input type="radio" name="statusTanah" value="lain"> Bukan pertanian / Lain-lain</label>
+          <label><input type="radio" name="statusTanah" value="pertanian">Pertanian</label>
+          <label><input type="radio" name="statusTanah" value="lain">Lain-lain</label>
         </div>
       </div>
 
       <div class="soalan">
-        <span class="tajuk">2. Adakah keluasan tanah melebihi 1 hektar (Ha)?</span>
+        <span class="tajuk">Keluasan melebihi 1 Ha?</span>
         <div class="pilihan">
-          <label><input type="radio" name="keluasan" value="ya"> Ya, melebihi 1 Ha</label>
-          <label><input type="radio" name="keluasan" value="tidak"> Tidak, 1 Ha atau kurang</label>
+          <label><input type="radio" name="keluasan" value="ya">Ya</label>
+          <label><input type="radio" name="keluasan" value="tidak">Tidak</label>
         </div>
       </div>
 
       <div class="soalan">
-        <span class="tajuk">3. Adakah anda pernah menerima bantuan pertanian dalam tempoh 5 tahun lepas?</span>
+        <span class="tajuk">Pernah terima bantuan dalam 5 tahun lepas?</span>
         <div class="pilihan">
-          <label><input type="radio" name="bantuan" value="tidak"> Tidak pernah</label>
-          <label><input type="radio" name="bantuan" value="ya"> Pernah</label>
+          <label><input type="radio" name="bantuan" value="tidak">Tidak pernah</label>
+          <label><input type="radio" name="bantuan" value="ya">Pernah</label>
         </div>
       </div>
 
-      <p id="ralatLayak" class="ralat">Sila jawab ketiga-tiga soalan.</p>
-      <button type="submit" class="btn-utama">Semak Kelayakan</button>
+      <p id="ralatLayak" class="ralat">Sila jawab semua soalan.</p>
+      <button type="submit" class="btn-utama">Semak</button>
     </form>
-
-    <div id="keputusanGagal" class="notis gagal tersembunyi" role="alert">
-      <h3>Maaf, anda tidak layak memohon.</h3>
-      <span>Sebab:</span>
-      <ul id="senaraiSebab"></ul>
-    </div>
   </section>
 
-  <!-- LANGKAH 2: MAKLUMAT PERMOHONAN -->
+  <!-- TIDAK LAYAK -->
+  <section id="keputusanGagal" class="kad tengah tersembunyi" role="alert">
+    <i data-emoji="1f97a" data-alt="🥺" class="besar"></i>
+    <h2>Maaf, anda belum layak</h2>
+    <ul id="senaraiSebab" class="notis gagal" style="text-align:left;padding-left:34px"></ul>
+    <button type="button" class="btn-kedua" id="cubaLagi">Cuba semula</button>
+  </section>
+
+  <!-- 2. MAKLUMAT PERMOHONAN -->
   <section id="langkah2" class="kad tersembunyi">
-    <div class="notis lulus" role="status">
-      <h3>Tahniah! Anda layak memohon projek pertanian.</h3>
-      Sila lengkapkan maklumat di bawah.
+    <div class="langkah-bar"><span class="siap">✓ Semak</span><span class="aktif">2 Isi</span><span>3 Hantar</span></div>
+    <div class="tengah">
+      <i data-emoji="1f973" data-alt="🥳" class="besar"></i>
+      <h2>Tahniah! Anda layak memohon projek pertanian.</h2>
+      <p class="sub">Lengkapkan maklumat di bawah</p>
     </div>
 
-    <p class="langkah">Langkah 2 daripada 3</p>
-    <h2>Maklumat Permohonan</h2>
     <form id="borangMohon" novalidate>
       <div class="soalan">
-        <label for="nama">1. Nama</label>
-        <input type="text" id="nama" autocomplete="name" placeholder="Nama penuh seperti dalam kad pengenalan">
+        <label for="nama">Nama</label>
+        <input type="text" id="nama" autocomplete="name" placeholder="Nama penuh">
         <p class="ralat" data-untuk="nama">Sila isi nama.</p>
       </div>
 
       <div class="soalan">
-        <label for="lokasi">2. Lokasi Projek</label>
-        <input type="text" id="lokasi" placeholder="Contoh: Lot 1234, Kampung Sungai Lampam">
-        <p class="ralat" data-untuk="lokasi">Sila isi lokasi projek.</p>
+        <label for="lokasi">Lokasi projek</label>
+        <input type="text" id="lokasi" placeholder="Cth: Lot 1234, Kg Sungai Lampam">
+        <p class="ralat" data-untuk="lokasi">Sila isi lokasi.</p>
       </div>
 
       <div class="soalan">
-        <label for="tanaman">3. Jenis Tanaman</label>
-        <input type="text" id="tanaman" placeholder="Contoh: Kelapa, Durian, Cili">
+        <label for="tanaman">Jenis tanaman</label>
+        <input type="text" id="tanaman" placeholder="Cth: Kelapa, Durian, Cili">
         <p class="ralat" data-untuk="tanaman">Sila isi jenis tanaman.</p>
       </div>
 
       <div class="soalan">
-        <label for="gambarProjek">4. Muat naik gambar projek</label>
-        <input type="file" id="gambarProjek" accept="image/*" multiple>
-        <p class="bantuan">Boleh pilih lebih daripada satu gambar.</p>
-        <div class="pratonton" data-pratonton="gambarProjek"></div>
-        <p class="ralat" data-untuk="gambarProjek">Sila muat naik sekurang-kurangnya satu gambar projek.</p>
-      </div>
-
-      <div class="soalan">
-        <label for="kadPengenalan">5. Muat naik kad pengenalan</label>
-        <input type="file" id="kadPengenalan" accept="image/*,application/pdf" multiple>
-        <p class="bantuan">Gambar atau PDF (depan &amp; belakang).</p>
-        <div class="pratonton" data-pratonton="kadPengenalan"></div>
+        <span class="tajuk">Dokumen</span>
+        <div class="muat-naik-grid">
+          <label class="muat-naik" data-medan="gambarProjek">
+            <i data-emoji="1f4f8" data-alt="📸"></i>
+            <span class="mn-tajuk">Gambar projek</span>
+            <span class="mn-status">Pilih</span>
+            <div class="pratonton" data-pratonton="gambarProjek"></div>
+            <input type="file" id="gambarProjek" accept="image/*" multiple aria-label="Gambar projek">
+          </label>
+          <label class="muat-naik" data-medan="kadPengenalan">
+            <i data-emoji="1f60a" data-alt="😊"></i>
+            <span class="mn-tajuk">Kad pengenalan</span>
+            <span class="mn-status">Pilih</span>
+            <div class="pratonton" data-pratonton="kadPengenalan"></div>
+            <input type="file" id="kadPengenalan" accept="image/*,application/pdf" multiple aria-label="Kad pengenalan">
+          </label>
+          <label class="muat-naik" data-medan="geranTanah">
+            <i data-emoji="1f343" data-alt="🍃"></i>
+            <span class="mn-tajuk">Geran tanah</span>
+            <span class="mn-status">Pilih</span>
+            <div class="pratonton" data-pratonton="geranTanah"></div>
+            <input type="file" id="geranTanah" accept="image/*,application/pdf" multiple aria-label="Geran tanah">
+          </label>
+        </div>
+        <p class="ralat" data-untuk="gambarProjek">Sila muat naik gambar projek.</p>
         <p class="ralat" data-untuk="kadPengenalan">Sila muat naik kad pengenalan.</p>
-      </div>
-
-      <div class="soalan">
-        <label for="geranTanah">6. Muat naik geran tanah</label>
-        <input type="file" id="geranTanah" accept="image/*,application/pdf" multiple>
-        <p class="bantuan">Gambar atau PDF.</p>
-        <div class="pratonton" data-pratonton="geranTanah"></div>
         <p class="ralat" data-untuk="geranTanah">Sila muat naik geran tanah.</p>
       </div>
 
       <div class="soalan">
-        <label for="mukim">7. Pilih Mukim</label>
+        <label for="mukim">Mukim</label>
         <select id="mukim">
-          <option value="">-- Pilih mukim --</option>
+          <option value="">Pilih mukim</option>
         </select>
         <p class="ralat" data-untuk="mukim">Sila pilih mukim.</p>
       </div>
 
+      <p id="ralatHantar" class="notis gagal tersembunyi" role="alert"></p>
       <div class="butang-kumpulan">
-        <p id="ralatHantar" class="notis gagal tersembunyi" role="alert"></p>
-        <button type="submit" class="btn-utama" id="butangHantar">Hantar Permohonan</button>
-        <button type="button" class="btn-teks" id="kembaliLayak">Kembali ke semakan kelayakan</button>
+        <button type="submit" class="btn-utama" id="butangHantar">Hantar permohonan</button>
+        <button type="button" class="btn-teks" id="kembaliLayak">← Kembali</button>
       </div>
     </form>
   </section>
 
-  <!-- LANGKAH 3 (DALAM TALIAN): PERMOHONAN BERJAYA -->
-  <section id="langkah3Online" class="kad tersembunyi">
-    <p class="langkah">Langkah 3 daripada 3</p>
-    <div class="notis lulus" role="status">
-      <h3>Permohonan berjaya dihantar</h3>
-      No. rujukan anda: <strong id="noRujukan"></strong><br>
-      Sila simpan nombor ini untuk semakan.
+  <!-- 3. BERJAYA (DALAM TALIAN) -->
+  <section id="langkah3Online" class="kad tengah tersembunyi">
+    <div class="langkah-bar"><span class="siap">✓ Semak</span><span class="siap">✓ Isi</span><span class="aktif">3 Hantar</span></div>
+    <i data-emoji="1f389" data-alt="🎉" class="besar"></i>
+    <h2>Permohonan dihantar!</h2>
+    <p class="sub">No. rujukan anda</p>
+    <span class="cip" id="noRujukan"></span>
+
+    <div class="agen">
+      <i data-emoji="1f69c" data-alt="🚜" class="kecil"></i>
+      <div><b id="paparMukimOnline"></b><span>Agen: <span id="paparNomborOnline"></span></span></div>
     </div>
-    <h2>Maklumkan kepada Agen Pengembangan Tanaman</h2>
-    <p class="info-agen">
-      Mukim: <strong id="paparMukimOnline"></strong><br>
-      No. WhatsApp agen: <strong id="paparNomborOnline"></strong>
-    </p>
-    <p>Dokumen anda telah disimpan dengan selamat dan hanya boleh dilihat oleh agen selepas log masuk. Tekan butang di bawah untuk menghantar mesej makluman kepada agen.</p>
-    <pre class="mesej" id="paparMesejOnline"></pre>
-    <div class="butang-kumpulan">
-      <a id="pautanWaOnline" class="btn btn-wa" target="_blank" rel="noopener">Hantar Mesej ke WhatsApp Agen</a>
-      <button type="button" class="btn-teks" id="mohonBaru">Buat permohonan baharu</button>
-    </div>
+
+    <a id="pautanWaOnline" class="btn btn-wa" target="_blank" rel="noopener">💬 Maklumkan agen di WhatsApp</a>
+    <details>
+      <summary>Lihat mesej</summary>
+      <pre class="mesej" id="paparMesejOnline"></pre>
+    </details>
+    <button type="button" class="btn-teks" id="mohonBaru">Mohon lagi</button>
   </section>
 
-  <!-- LANGKAH 3 (MANUAL): HANTAR KE WHATSAPP -->
-  <section id="langkah3" class="kad tersembunyi">
-    <p class="langkah">Langkah 3 daripada 3</p>
-    <h2>Hantar kepada Agen Pengembangan Tanaman</h2>
-    <p class="info-agen">
-      Mukim: <strong id="paparMukim"></strong><br>
-      No. WhatsApp agen: <strong id="paparNombor"></strong>
-    </p>
+  <!-- 3. HANTAR (MANUAL, jika pelayan belum disediakan) -->
+  <section id="langkah3" class="kad tengah tersembunyi">
+    <div class="langkah-bar"><span class="siap">✓ Semak</span><span class="siap">✓ Isi</span><span class="aktif">3 Hantar</span></div>
+    <i data-emoji="1f4ac" data-alt="💬" class="besar"></i>
+    <h2>Hantar kepada agen</h2>
+    <p class="sub">Tekan kedua-dua butang di bawah</p>
 
-    <div class="notis amaran">
-      WhatsApp tidak membenarkan mesej dan dokumen dihantar sekali melalui pautan.
-      Sila buat <strong>kedua-dua langkah A dan B</strong> di bawah supaya permohonan lengkap sampai kepada agen.
-    </div>
-
-    <div class="sub-langkah" id="kotakA">
-      <h3><span class="nombor">A</span> Hantar mesej</h3>
-      <pre class="mesej" id="paparMesej"></pre>
-      <a id="pautanWa" class="btn btn-wa" target="_blank" rel="noopener">Buka WhatsApp &amp; Hantar Mesej</a>
-      <p class="bantuan">WhatsApp akan dibuka dengan mesej siap ditulis. Tekan butang hantar di WhatsApp, kemudian <strong>kembali ke halaman ini</strong> untuk langkah B.</p>
-    </div>
-
-    <div class="sub-langkah" id="kotakB">
-      <h3><span class="nombor">B</span> <span>Hantar dokumen (<span id="bilFail"></span> fail)</span></h3>
-      <ul class="senarai-fail" id="senaraiFail"></ul>
-      <div id="bolehKongsi">
-        <button type="button" class="btn-wa" id="kongsiDokumen">Hantar Dokumen ke WhatsApp</button>
-        <p class="bantuan">Pilih <strong>WhatsApp</strong>, kemudian pilih chat agen (<strong class="noAgen"></strong>). Chat ini akan berada di bahagian atas senarai selepas langkah A.</p>
-      </div>
-      <div id="tidakBolehKongsi" class="notis gagal tersembunyi">
-        Pelayar ini tidak dapat menghantar fail terus ke WhatsApp.
-        <ul>
-          <li>Jika anda membuka pautan ini dari dalam WhatsApp atau Facebook, tekan menu <strong>⋮</strong> dan pilih <strong>Buka dalam Chrome</strong> / <strong>Safari</strong>, kemudian isi semula.</li>
-          <li>Atau, dalam chat agen di WhatsApp, tekan ikon <strong>📎</strong> dan lampirkan fail di atas secara manual.</li>
-        </ul>
-      </div>
-      <p id="statusKongsi" class="bantuan"></p>
+    <div class="agen">
+      <i data-emoji="1f69c" data-alt="🚜" class="kecil"></i>
+      <div><b id="paparMukim"></b><span>Agen: <span id="paparNombor"></span></span></div>
     </div>
 
     <div class="butang-kumpulan">
-      <button type="button" class="btn-kedua" id="salinNombor">Salin nombor agen</button>
-      <button type="button" class="btn-teks" id="kembaliBorang">Kembali ubah maklumat</button>
+      <a id="pautanWa" class="btn btn-wa" target="_blank" rel="noopener">1 · Hantar mesej</a>
+      <button type="button" class="btn-wa" id="kongsiDokumen">2 · Hantar dokumen (<span id="bilFail"></span>)</button>
     </div>
+    <p id="tidakBolehKongsi" class="notis amaran tersembunyi" style="margin-top:12px;text-align:left">
+      Telefon ini tidak dapat hantar fail terus. Buka pautan dalam Chrome/Safari, atau lampirkan dokumen sendiri dengan 📎 dalam chat agen.
+    </p>
+    <p id="statusKongsi" class="bantuan"></p>
+    <details>
+      <summary>Lihat mesej</summary>
+      <pre class="mesej" id="paparMesej"></pre>
+    </details>
+    <button type="button" class="btn-teks" id="kembaliBorang">← Kembali</button>
   </section>
 </main>
 
 <script>
-
+{
   const $ = (id) => document.getElementById(id);
-  const langkah = [$("langkah1"), $("langkah2"), $("langkah3"), $("langkah3Online")];
+  const SKRIN = ["langkah1", "keputusanGagal", "langkah2", "langkah3", "langkah3Online"];
+  const MEDAN_FAIL = ["gambarProjek", "kadPengenalan", "geranTanah"];
+  const MAKS_SAIZ = 8 * 1024 * 1024;
 
-  function tunjukLangkah(n) {
-    langkah.forEach((el, i) => el.classList.toggle("tersembunyi", i !== n - 1));
+  function tunjuk(id) {
+    SKRIN.forEach((s) => $(s).classList.toggle("tersembunyi", s !== id));
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  // Tukar 01xxxxxxxx kepada format antarabangsa 601xxxxxxxx untuk wa.me
   function formatAntarabangsa(no) {
-    const digit = no.replace(/\D/g, "");
-    return digit.startsWith("0") ? "6" + digit : digit;
+    const d = no.replace(/\D/g, "");
+    return d.startsWith("0") ? "6" + d : d;
   }
 
-  // Isi pilihan mukim
-  MUKIM.forEach((m, i) => {
-    const opt = document.createElement("option");
-    opt.value = i;
-    opt.textContent = `${i + 1}. ${m.nama}`;
-    $("mukim").appendChild(opt);
-  });
+  function pautanWa(telefon, mesej) {
+    return `https://wa.me/${formatAntarabangsa(telefon)}?text=${encodeURIComponent(mesej)}`;
+  }
 
-  // ---------- Langkah 1: Semakan kelayakan ----------
+  MUKIM.forEach((m, i) => $("mukim").insertAdjacentHTML("beforeend", `<option value="${i}">${m.nama}</option>`));
+
+  // ---------- 1. Semak kelayakan ----------
   $("borangLayak").addEventListener("submit", (e) => {
     e.preventDefault();
     const f = e.target;
-    const status = f.statusTanah.value;
-    const keluasan = f.keluasan.value;
-    const bantuan = f.bantuan.value;
-
-    $("keputusanGagal").classList.add("tersembunyi");
+    const [status, keluasan, bantuan] = [f.statusTanah.value, f.keluasan.value, f.bantuan.value];
     if (!status || !keluasan || !bantuan) {
       $("ralatLayak").classList.add("tunjuk");
       return;
@@ -228,43 +224,40 @@
     $("ralatLayak").classList.remove("tunjuk");
 
     const sebab = [];
-    if (status !== "pertanian") sebab.push("Status tanah mestilah pertanian.");
-    if (keluasan !== "ya") sebab.push("Keluasan tanah mestilah melebihi 1 hektar.");
-    if (bantuan !== "tidak") sebab.push("Pemohon tidak boleh pernah menerima bantuan dalam tempoh 5 tahun lepas.");
+    if (status !== "pertanian") sebab.push("Status tanah mesti pertanian");
+    if (keluasan !== "ya") sebab.push("Keluasan mesti melebihi 1 Ha");
+    if (bantuan !== "tidak") sebab.push("Tidak pernah terima bantuan dalam 5 tahun lepas");
 
     if (sebab.length) {
-      $("senaraiSebab").innerHTML = "";
-      sebab.forEach((s) => {
-        const li = document.createElement("li");
-        li.textContent = s;
-        $("senaraiSebab").appendChild(li);
-      });
-      $("keputusanGagal").classList.remove("tersembunyi");
-      return;
+      $("senaraiSebab").innerHTML = sebab.map((s) => `<li>${s}</li>`).join("");
+      tunjuk("keputusanGagal");
+    } else {
+      tunjuk("langkah2");
     }
-    tunjukLangkah(2);
   });
+  $("cubaLagi").addEventListener("click", () => tunjuk("langkah1"));
+  $("kembaliLayak").addEventListener("click", () => tunjuk("langkah1"));
 
-  // ---------- Langkah 2: Borang permohonan ----------
-  const MEDAN_FAIL = ["gambarProjek", "kadPengenalan", "geranTanah"];
-
+  // ---------- 2. Borang ----------
   MEDAN_FAIL.forEach((id) => {
     $(id).addEventListener("change", () => {
+      const fail = [...$(id).files];
       const kotak = document.querySelector(`[data-pratonton="${id}"]`);
+      const tile = document.querySelector(`[data-medan="${id}"]`);
       kotak.innerHTML = "";
-      [...$(id).files].forEach((fail) => {
-        if (fail.type.startsWith("image/")) {
+      fail.forEach((f) => {
+        if (f.type.startsWith("image/")) {
           const img = document.createElement("img");
-          img.src = URL.createObjectURL(fail);
-          img.alt = fail.name;
+          img.src = URL.createObjectURL(f);
+          img.alt = "";
           kotak.appendChild(img);
         } else {
-          const span = document.createElement("span");
-          span.className = "fail";
-          span.textContent = fail.name;
-          kotak.appendChild(span);
+          kotak.insertAdjacentHTML("beforeend", '<span class="fail">PDF</span>');
         }
       });
+      tile.classList.toggle("ada", fail.length > 0);
+      tile.querySelector(".mn-status").textContent = fail.length ? `✓ ${fail.length} fail` : "Pilih";
+      if (fail.length) setRalat(id, false);
     });
   });
 
@@ -290,13 +283,34 @@
     return baris.join("\n");
   }
 
-  function pautanWa(telefon, mesej) {
-    return `https://wa.me/${formatAntarabangsa(telefon)}?text=${encodeURIComponent(mesej)}`;
-  }
+  $("borangMohon").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const nama = $("nama").value.trim();
+    const lokasi = $("lokasi").value.trim();
+    const tanaman = $("tanaman").value.trim();
+    const mukimIdx = $("mukim").value;
 
-  // ---------- Sediakan fail untuk dimuat naik ----------
-  const MAKS_SAIZ = 8 * 1024 * 1024;
+    let sah = true;
+    [["nama", nama], ["lokasi", lokasi], ["tanaman", tanaman], ["mukim", mukimIdx]].forEach(([id, v]) => {
+      setRalat(id, !v);
+      if (!v) sah = false;
+    });
+    MEDAN_FAIL.forEach((id) => {
+      const kosong = $(id).files.length === 0;
+      setRalat(id, kosong);
+      if (kosong) sah = false;
+    });
+    if (!sah) {
+      document.querySelector("#borangMohon .ralat.tunjuk")?.closest(".soalan")
+        .scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
 
+    if (API_URL) hantarKePelayan(nama, lokasi, tanaman, Number(mukimIdx));
+    else tunjukManual(nama, lokasi, tanaman, Number(mukimIdx));
+  });
+
+  // ---------- Muat naik ke pelayan ----------
   function bacaBase64(blob) {
     return new Promise((ok, gagal) => {
       const r = new FileReader();
@@ -306,7 +320,6 @@
     });
   }
 
-  // Kecilkan gambar (maks 1600px, JPEG) supaya muat naik lebih cepat
   async function kecilkanGambar(fail) {
     const bmp = await createImageBitmap(fail);
     const skala = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
@@ -327,49 +340,14 @@
         blob = await kecilkanGambar(fail);
         nama = fail.name.replace(/\.[^.]+$/, "") + ".jpg";
         mimeType = "image/jpeg";
-      } catch { /* hantar fail asal jika tidak dapat dikecilkan */ }
+      } catch { /* guna fail asal */ }
     }
     if (!mimeType.startsWith("image/") && mimeType !== "application/pdf") {
-      throw new Error(`Fail "${fail.name}" bukan gambar atau PDF.`);
+      throw new Error(`"${fail.name}" bukan gambar atau PDF.`);
     }
-    if (blob.size > MAKS_SAIZ) throw new Error(`Fail "${fail.name}" terlalu besar (maksimum 8 MB).`);
+    if (blob.size > MAKS_SAIZ) throw new Error(`"${fail.name}" melebihi 8 MB.`);
     return { jenis, nama, mimeType, data: await bacaBase64(blob) };
   }
-
-  let semuaFail = [];
-  let mesejSemasa = "";
-  let nomborSemasa = "";
-
-  function bolehKongsiFail() {
-    try { return !!(navigator.canShare && navigator.canShare({ files: semuaFail })); }
-    catch { return false; }
-  }
-
-  $("borangMohon").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const nama = $("nama").value.trim();
-    const lokasi = $("lokasi").value.trim();
-    const tanaman = $("tanaman").value.trim();
-    const mukimIdx = $("mukim").value;
-
-    let sah = true;
-    [["nama", nama], ["lokasi", lokasi], ["tanaman", tanaman], ["mukim", mukimIdx]].forEach(([id, v]) => {
-      setRalat(id, !v);
-      if (!v) sah = false;
-    });
-    MEDAN_FAIL.forEach((id) => {
-      const kosong = $(id).files.length === 0;
-      setRalat(id, kosong);
-      if (kosong) sah = false;
-    });
-    if (!sah) {
-      document.querySelector("#borangMohon .ralat.tunjuk")?.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
-    }
-
-    if (API_URL) hantarKePelayan(nama, lokasi, tanaman, Number(mukimIdx));
-    else tunjukManual(nama, lokasi, tanaman, Number(mukimIdx));
-  });
 
   async function hantarKePelayan(nama, lokasi, tanaman, mukimIdx) {
     const butang = $("butangHantar");
@@ -382,7 +360,7 @@
       for (const id of MEDAN_FAIL) {
         for (const f of $(id).files) fail.push(await sediaFail(id, f));
       }
-      butang.innerHTML = '<span class="muat"></span>Menghantar permohonan... (jangan tutup halaman)';
+      butang.innerHTML = '<span class="muat"></span>Menghantar...';
       const { rujukan } = await panggilApi("mohon", { nama, lokasi, tanaman, mukim: mukimIdx, fail });
 
       const mukim = MUKIM[mukimIdx];
@@ -392,86 +370,59 @@
       $("paparNomborOnline").textContent = mukim.telefon;
       $("paparMesejOnline").textContent = mesej;
       $("pautanWaOnline").href = pautanWa(mukim.telefon, mesej);
-      tunjukLangkah(4);
+      tunjuk("langkah3Online");
     } catch (err) {
-      ralat.textContent = "Permohonan tidak berjaya dihantar: " + err.message + " Sila cuba lagi.";
+      ralat.textContent = "Tidak berjaya: " + err.message + " Sila cuba lagi.";
       ralat.classList.remove("tersembunyi");
       ralat.scrollIntoView({ behavior: "smooth", block: "center" });
     } finally {
       butang.disabled = false;
-      butang.textContent = "Hantar Permohonan";
+      butang.textContent = "Hantar permohonan";
     }
+  }
+
+  $("mohonBaru").addEventListener("click", () => location.reload());
+
+  // ---------- Cara manual ----------
+  let semuaFail = [];
+
+  function bolehKongsiFail() {
+    try { return !!(navigator.canShare && navigator.canShare({ files: semuaFail })); }
+    catch { return false; }
   }
 
   function tunjukManual(nama, lokasi, tanaman, mukimIdx) {
     const mukim = MUKIM[mukimIdx];
-    mesejSemasa = binaMesej(nama, lokasi, tanaman);
+    const mesej = binaMesej(nama, lokasi, tanaman);
     semuaFail = MEDAN_FAIL.flatMap((id) => [...$(id).files]);
 
     $("paparMukim").textContent = mukim.nama;
     $("paparNombor").textContent = mukim.telefon;
-    $("paparMesej").textContent = mesejSemasa;
-    $("pautanWa").href = pautanWa(mukim.telefon, mesejSemasa);
-
-    $("bilFail").textContent = semuaFail.length;
-    document.querySelectorAll(".noAgen").forEach((el) => (el.textContent = mukim.telefon));
-    $("senaraiFail").innerHTML = "";
-    MEDAN_FAIL.forEach((id) => {
-      const label = { gambarProjek: "Gambar projek", kadPengenalan: "Kad pengenalan", geranTanah: "Geran tanah" }[id];
-      [...$(id).files].forEach((f) => {
-        const li = document.createElement("li");
-        li.textContent = `${label}: ${f.name}`;
-        $("senaraiFail").appendChild(li);
-      });
-    });
-    const boleh = bolehKongsiFail();
-    $("bolehKongsi").classList.toggle("tersembunyi", !boleh);
-    $("tidakBolehKongsi").classList.toggle("tersembunyi", boleh);
+    $("paparMesej").textContent = mesej;
+    $("pautanWa").href = pautanWa(mukim.telefon, mesej);
+    $("bilFail").textContent = semuaFail.length + " fail";
+    $("tidakBolehKongsi").classList.toggle("tersembunyi", bolehKongsiFail());
     $("statusKongsi").textContent = "";
-    $("kotakA").className = "sub-langkah aktif";
-    $("kotakB").className = "sub-langkah";
-    nomborSemasa = mukim.telefon;
-
-    tunjukLangkah(3);
+    tunjuk("langkah3");
   }
 
-  $("mohonBaru").addEventListener("click", () => {
-    $("borangLayak").reset();
-    $("borangMohon").reset();
-    document.querySelectorAll(".pratonton").forEach((el) => (el.innerHTML = ""));
-    tunjukLangkah(1);
-  });
-
-  $("kembaliLayak").addEventListener("click", () => tunjukLangkah(1));
-
-  // ---------- Langkah 3: Hantar ----------
-  $("pautanWa").addEventListener("click", () => {
-    $("kotakA").className = "sub-langkah selesai";
-    $("kotakB").className = "sub-langkah aktif";
-  });
-
   $("kongsiDokumen").addEventListener("click", async () => {
-    const st = $("statusKongsi");
+    if (!bolehKongsiFail()) {
+      $("tidakBolehKongsi").classList.remove("tersembunyi");
+      $("tidakBolehKongsi").classList.add("goyang");
+      setTimeout(() => $("tidakBolehKongsi").classList.remove("goyang"), 900);
+      return;
+    }
     try {
       await navigator.share({ files: semuaFail });
-      $("kotakB").className = "sub-langkah selesai";
-      st.textContent = "Dokumen telah dikongsi. Pastikan ia sampai dalam chat agen.";
+      $("statusKongsi").textContent = "✓ Dokumen dikongsi";
     } catch (err) {
-      if (err.name === "AbortError") return;
-      st.textContent = "Gagal menghantar dokumen (" + err.message + "). Sila lampirkan secara manual dalam chat agen menggunakan ikon 📎.";
+      if (err.name !== "AbortError") $("statusKongsi").textContent = "Gagal: " + err.message;
     }
   });
 
-  $("salinNombor").addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(nomborSemasa);
-      $("salinNombor").textContent = "Nombor disalin: " + nomborSemasa;
-    } catch {
-      $("salinNombor").textContent = "No. agen: " + nomborSemasa;
-    }
-  });
-
-  $("kembaliBorang").addEventListener("click", () => tunjukLangkah(2));
+  $("kembaliBorang").addEventListener("click", () => tunjuk("langkah2"));
+}
 </script>
 </body>
 </html>

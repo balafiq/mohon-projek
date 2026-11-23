@@ -4,81 +4,91 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Portal Agen - Permohonan Projek Pertanian</title>
+<meta name="theme-color" content="#3aa65b">
+<title>Portal Agen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap">
 <link rel="stylesheet" href="style.css">
 <script src="config.js"></script>
+<script src="ui.js"></script>
 <style>
-  main { max-width: 820px; }
-  .bar-atas { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
-  .bar-atas h2 { margin: 0; }
-  .bar-atas button { width: auto; }
-  .penapis { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 10px; margin-bottom: 12px; }
-  @media (max-width: 520px) { .penapis { grid-template-columns: minmax(0, 1fr); } }
-  .ringkasan { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; font-size: .85rem; }
-  .ringkasan span { background: #fff; border: 1px solid var(--garis); border-radius: 999px; padding: 4px 10px; }
-  .permohonan { border: 1px solid var(--garis); border-radius: 10px; padding: 14px; margin-bottom: 12px; background: #fff; }
-  .permohonan.sorot { border: 2px solid #25d366; }
-  .permohonan header { all: unset; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-  .permohonan h3 { margin: 0; font-size: 1.05rem; }
-  .ref { font-family: ui-monospace, monospace; font-size: .85rem; color: var(--kelabu); }
-  dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 2px 12px; margin: 10px 0; font-size: .95rem; }
-  dt { color: var(--kelabu); }
-  dd { margin: 0; overflow-wrap: anywhere; }
-  .lencana { font-size: .8rem; font-weight: 600; border-radius: 999px; padding: 3px 10px; white-space: nowrap; align-self: flex-start; }
-  .s-Baru { background: #e3f2fd; color: #0d47a1; }
-  .s-Sedang { background: #fff8e1; color: #6d4c00; }
+  main { max-width: 760px; }
+  .bar-atas { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .bar-atas h2 { flex: 1; margin: 0; font-size: 1.15rem; display: flex; align-items: center; gap: 8px; }
+  .ikon { width: 44px; min-height: 44px; padding: 0; flex: none; font-size: 1.2rem; }
+  .cip-tapis { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 6px; margin: 12px 0 8px; scrollbar-width: none; }
+  .cip-tapis button {
+    width: auto; min-height: 40px; flex: none;
+    padding: 6px 14px; font-size: .9rem;
+    background: #fff; color: var(--ink); border: 2px solid var(--garis);
+  }
+  .cip-tapis button b { background: var(--bg); border-radius: 999px; padding: 0 8px; margin-left: 2px; }
+  .cip-tapis button.aktif { background: var(--hijau); border-color: var(--hijau); color: #fff; }
+  .cip-tapis button.aktif b { background: rgba(255,255,255,.25); }
+  .permohonan { background: #fff; border-radius: var(--bulat); padding: 18px; margin-bottom: 12px; box-shadow: var(--bayang); border: 2px solid transparent; }
+  .permohonan.sorot { border-color: var(--kuning); }
+  .p-atas { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .permohonan h3 { margin: 0; font-size: 1.1rem; font-weight: 800; }
+  .ref { font-size: .8rem; color: var(--kelabu); }
+  .butir { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 10px 0 14px; font-size: .95rem; }
+  .lencana { font-size: .8rem; font-weight: 800; border-radius: 999px; padding: 4px 12px; white-space: nowrap; }
+  .s-Baru { background: #e3efff; color: #1d4f9c; }
+  .s-Sedang { background: var(--kuning-muda); color: #7a5a00; }
   .s-Lulus { background: var(--hijau-muda); color: var(--hijau-gelap); }
-  .s-Tidak { background: var(--merah-muda); color: var(--merah); }
-  .tindakan { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; align-items: center; }
-  @media (max-width: 520px) { .tindakan { grid-template-columns: minmax(0, 1fr); } }
-  .dokumen { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 12px; }
-  .dok { border: 1px solid var(--garis); border-radius: 8px; padding: 8px; font-size: .85rem; display: flex; flex-direction: column; gap: 6px; }
-  .dok img { width: 100%; height: 120px; object-fit: cover; border-radius: 6px; background: #eef2ef; }
-  .dok .pdf { height: 120px; display: grid; place-items: center; background: #eef2ef; border-radius: 6px; font-weight: 700; color: var(--merah); }
-  .dok a { color: var(--hijau); font-weight: 600; }
-  .dok .label { font-weight: 600; }
-  .kosong { text-align: center; color: var(--kelabu); padding: 24px 0; }
+  .s-Tidak { background: var(--pic-muda); color: #a8342a; }
+  .tindakan { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+  .tindakan select { min-height: 52px; border-radius: 999px; font-weight: 700; }
+  .dokumen { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  .dokumen:not(:empty) { margin-top: 14px; }
+  .dok { background: var(--bg); border-radius: 16px; padding: 8px; font-size: .85rem; display: flex; flex-direction: column; gap: 6px; }
+  .dok .label { font-weight: 800; padding: 0 4px; }
+  .dok img, .dok .pdf { width: 100%; height: 110px; object-fit: cover; border-radius: 12px; background: #fff; }
+  .dok .pdf { display: grid; place-items: center; font-weight: 800; color: var(--pic); }
+  .dok .pautan { display: flex; justify-content: space-between; padding: 0 4px; }
+  .dok a { color: var(--hijau-gelap); font-weight: 800; text-decoration: none; }
+  .kosong { text-align: center; color: var(--kelabu); padding: 30px 0; }
 </style>
 </head>
 <body>
-<header>
-  <h1>Portal Agen Pengembangan Tanaman</h1>
-  <p>Permohonan Projek Pertanian</p>
+<header class="kepala">
+  <i data-emoji="1f33d" data-alt="🌽"></i>
+  <h1>Portal Agen</h1>
 </header>
 
 <main>
   <!-- LOG MASUK -->
   <section id="skrinLogin" class="kad">
-    <h2>Log Masuk Agen</h2>
+    <div class="tengah">
+      <i data-emoji="1f44b" data-alt="👋" class="besar"></i>
+      <h2>Selamat datang!</h2>
+      <p class="sub">Log masuk untuk lihat permohonan</p>
+    </div>
     <form id="borangLogin" novalidate>
       <div class="soalan">
         <label for="mukimLogin">Mukim</label>
-        <select id="mukimLogin"><option value="">-- Pilih mukim --</option></select>
+        <select id="mukimLogin"><option value="">Pilih mukim</option></select>
       </div>
       <div class="soalan">
         <label for="kataLaluan">Kata laluan</label>
         <input type="password" id="kataLaluan" autocomplete="current-password">
       </div>
       <p id="ralatLogin" class="notis gagal tersembunyi" role="alert"></p>
-      <button type="submit" class="btn-utama" id="butangLogin">Log Masuk</button>
+      <button type="submit" class="btn-utama" id="butangLogin">🔒 Log masuk</button>
     </form>
-    <p class="bantuan">Kata laluan diberikan oleh pentadbir sistem. Setiap mukim mempunyai kata laluan sendiri.</p>
   </section>
 
-  <!-- SENARAI PERMOHONAN -->
+  <!-- SENARAI -->
   <section id="skrinSenarai" class="tersembunyi">
-    <div class="bar-atas">
-      <h2 id="tajukMukim"></h2>
-      <div style="display:flex;gap:8px">
-        <button type="button" class="btn-kedua" id="muatSemula">Muat semula</button>
-        <button type="button" class="btn-kedua" id="logKeluar">Log keluar</button>
+    <div class="kad" style="padding:16px">
+      <div class="bar-atas">
+        <h2><i data-emoji="1f69c" data-alt="🚜" class="kecil"></i><span id="tajukMukim"></span></h2>
+        <button type="button" class="btn-kedua ikon" id="muatSemula" title="Muat semula" aria-label="Muat semula">↻</button>
+        <button type="button" class="btn-kedua" id="logKeluar" style="width:auto;min-height:44px;padding:8px 16px">Keluar</button>
       </div>
+      <input type="search" id="cari" placeholder="🔍 Cari nama, lokasi, tanaman, rujukan">
+      <div class="cip-tapis" id="tapisStatus"></div>
     </div>
-    <div class="penapis">
-      <input type="search" id="cari" placeholder="Cari nama, lokasi, tanaman atau no. rujukan">
-      <select id="tapisStatus"><option value="">Semua status</option></select>
-    </div>
-    <div class="ringkasan" id="ringkasan"></div>
     <p id="ralatSenarai" class="notis gagal tersembunyi" role="alert"></p>
     <div id="senarai"></div>
   </section>
@@ -88,17 +98,13 @@
 {
   const $ = (id) => document.getElementById(id);
   const parameterRef = new URLSearchParams(location.search).get("ref");
-  let sesi = null;              // { token, mukim, namaMukim }
+  let sesi = null;
   let permohonan = [];
   let senaraiStatus = [];
+  let statusDipilih = "";
   const urlBlob = [];
 
-  MUKIM.forEach((m, i) => {
-    const o = document.createElement("option");
-    o.value = i;
-    o.textContent = `${i + 1}. ${m.nama}`;
-    $("mukimLogin").appendChild(o);
-  });
+  MUKIM.forEach((m, i) => $("mukimLogin").insertAdjacentHTML("beforeend", `<option value="${i}">${m.nama}</option>`));
 
   function simpanSesi(s) {
     sesi = s;
@@ -135,16 +141,10 @@
     ralat.classList.add("tersembunyi");
     const mukim = $("mukimLogin").value;
     const kataLaluan = $("kataLaluan").value;
-    if (!mukim || !kataLaluan) {
-      ralat.textContent = "Sila pilih mukim dan masukkan kata laluan.";
-      ralat.classList.remove("tersembunyi");
-      return;
-    }
-    if (!API_URL) {
-      ralat.textContent = "Sistem belum disediakan (API_URL kosong dalam config.js).";
-      ralat.classList.remove("tersembunyi");
-      return;
-    }
+    const salah = (m) => { ralat.textContent = m; ralat.classList.remove("tersembunyi"); };
+    if (!mukim || !kataLaluan) return salah("Sila pilih mukim dan isi kata laluan.");
+    if (!API_URL) return salah("Sistem belum disediakan.");
+
     const b = $("butangLogin");
     b.disabled = true;
     b.innerHTML = '<span class="muat"></span>Log masuk...';
@@ -154,11 +154,10 @@
       $("kataLaluan").value = "";
       await bukaSenarai();
     } catch (err) {
-      ralat.textContent = err.message;
-      ralat.classList.remove("tersembunyi");
+      salah(err.message);
     } finally {
       b.disabled = false;
-      b.textContent = "Log Masuk";
+      b.textContent = "🔒 Log masuk";
     }
   });
 
@@ -173,20 +172,17 @@
   // ---------- Senarai ----------
   async function bukaSenarai() {
     tunjuk("senarai");
-    $("tajukMukim").textContent = "Mukim " + sesi.namaMukim;
+    $("tajukMukim").textContent = sesi.namaMukim;
     await muatSenarai();
   }
 
   async function muatSenarai() {
     $("ralatSenarai").classList.add("tersembunyi");
-    $("senarai").innerHTML = '<p class="kosong"><span class="muat"></span>Memuatkan permohonan...</p>';
+    $("senarai").innerHTML = `<p class="kosong">${emoji("23f3", "⏳", "kecil")} Memuatkan...</p>`;
     try {
       const r = await api("senarai");
       permohonan = r.permohonan;
-      if (!senaraiStatus.length) {
-        senaraiStatus = r.senaraiStatus;
-        senaraiStatus.forEach((s) => $("tapisStatus").insertAdjacentHTML("beforeend", `<option>${esc(s)}</option>`));
-      }
+      senaraiStatus = r.senaraiStatus;
       lukis();
       if (parameterRef) {
         const kad = document.querySelector(`[data-ref="${CSS.escape(parameterRef)}"]`);
@@ -203,45 +199,43 @@
     }
   }
 
-  function kelasStatus(s) { return "s-" + String(s).split(" ")[0]; }
+  const kelasStatus = (s) => "s-" + String(s).split(" ")[0];
 
-  function lukisRingkasan() {
+  function lukisTapis() {
     const kiraan = {};
     permohonan.forEach((p) => (kiraan[p.status] = (kiraan[p.status] || 0) + 1));
-    $("ringkasan").innerHTML = `<span>Jumlah: <b>${permohonan.length}</b></span>` +
-      senaraiStatus.map((s) => `<span>${esc(s)}: <b>${kiraan[s] || 0}</b></span>`).join("");
+    $("tapisStatus").innerHTML = [["", "Semua", permohonan.length], ...senaraiStatus.map((s) => [s, s, kiraan[s] || 0])]
+      .map(([v, l, n]) => `<button type="button" data-tapis="${esc(v)}" class="${v === statusDipilih ? "aktif" : ""}">${esc(l)} <b>${n}</b></button>`)
+      .join("");
   }
 
   function lukis() {
+    lukisTapis();
     const q = $("cari").value.trim().toLowerCase();
-    const st = $("tapisStatus").value;
-    lukisRingkasan();
-
     const tapis = permohonan.filter((p) =>
-      (!st || p.status === st) &&
+      (!statusDipilih || p.status === statusDipilih) &&
       (!q || [p.nama, p.lokasi, p.tanaman, p.rujukan].join(" ").toLowerCase().includes(q)));
 
     if (!tapis.length) {
-      $("senarai").innerHTML = `<p class="kosong">${permohonan.length ? "Tiada permohonan sepadan." : "Belum ada permohonan untuk mukim ini."}</p>`;
+      $("senarai").innerHTML = `<div class="kosong">${emoji("1f331", "🌱", "besar")}${permohonan.length ? "Tiada padanan" : "Belum ada permohonan"}</div>`;
       return;
     }
     $("senarai").innerHTML = tapis.map((p) => `
       <article class="permohonan" data-ref="${esc(p.rujukan)}">
-        <header>
+        <div class="p-atas">
           <div>
             <h3>${esc(p.nama)}</h3>
-            <span class="ref">${esc(p.rujukan)} · ${new Date(p.tarikh).toLocaleString("ms-MY", { dateStyle: "medium", timeStyle: "short" })}</span>
+            <span class="ref">${esc(p.rujukan)} · ${new Date(p.tarikh).toLocaleDateString("ms-MY", { day: "numeric", month: "short", year: "numeric" })}</span>
           </div>
           <span class="lencana ${kelasStatus(p.status)}">${esc(p.status)}</span>
-        </header>
-        <dl>
-          <dt>Lokasi</dt><dd>${esc(p.lokasi)}</dd>
-          <dt>Tanaman</dt><dd>${esc(p.tanaman)}</dd>
-          <dt>Dokumen</dt><dd>${p.fail.length} fail</dd>
-        </dl>
+        </div>
+        <div class="butir">
+          <span>📍 ${esc(p.lokasi)}</span>
+          <span>🌿 ${esc(p.tanaman)}</span>
+        </div>
         <div class="tindakan">
-          <button type="button" class="btn-utama" data-dokumen="${esc(p.rujukan)}">Lihat dokumen</button>
-          <select data-status="${esc(p.rujukan)}" aria-label="Tukar status">
+          <button type="button" class="btn-utama" data-dokumen="${esc(p.rujukan)}">Dokumen (${p.fail.length})</button>
+          <select data-status="${esc(p.rujukan)}" aria-label="Status">
             ${senaraiStatus.map((s) => `<option ${s === p.status ? "selected" : ""}>${esc(s)}</option>`).join("")}
           </select>
         </div>
@@ -250,8 +244,13 @@
   }
 
   $("cari").addEventListener("input", lukis);
-  $("tapisStatus").addEventListener("change", lukis);
   $("muatSemula").addEventListener("click", muatSenarai);
+  $("tapisStatus").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-tapis]");
+    if (!b) return;
+    statusDipilih = b.dataset.tapis;
+    lukis();
+  });
 
   $("senarai").addEventListener("click", (e) => {
     const ref = e.target.closest("[data-dokumen]")?.dataset.dokumen;
@@ -267,16 +266,16 @@
     try {
       await api("status", { rujukan: ref, status: e.target.value });
       p.status = e.target.value;
-      e.target.disabled = false;
       const lencana = e.target.closest(".permohonan").querySelector(".lencana");
       lencana.className = "lencana " + kelasStatus(p.status);
       lencana.textContent = p.status;
-      lukisRingkasan();
+      lukisTapis();
     } catch (err) {
       e.target.value = lama;
-      e.target.disabled = false;
-      $("ralatSenarai").textContent = "Gagal menukar status: " + err.message;
+      $("ralatSenarai").textContent = "Gagal tukar status: " + err.message;
       $("ralatSenarai").classList.remove("tersembunyi");
+    } finally {
+      e.target.disabled = false;
     }
   });
 
@@ -287,12 +286,12 @@
     if (!p || !kotak || kotak.dataset.dimuat) return;
     kotak.dataset.dimuat = "1";
     const butang = document.querySelector(`[data-dokumen="${CSS.escape(ref)}"]`);
-    if (butang) butang.classList.add("tersembunyi");
+    if (butang) { butang.disabled = true; butang.textContent = "✓ Dibuka"; }
 
     kotak.innerHTML = p.fail.map((f) => `
       <div class="dok" id="f-${esc(f.id)}">
         <span class="label">${esc(f.jenis)}</span>
-        <div class="pdf"><span class="muat"></span></div>
+        <div class="pdf"><span class="muat" style="color:var(--hijau)"></span></div>
       </div>`).join("");
 
     for (const f of p.fail) {
@@ -304,12 +303,11 @@
         urlBlob.push(url);
         const pratonton = r.mimeType.startsWith("image/")
           ? `<a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="${esc(f.jenis)}"></a>`
-          : `<div class="pdf">PDF</div>`;
+          : `<a href="${url}" target="_blank" rel="noopener" class="pdf">PDF</a>`;
         el.innerHTML = `
           <span class="label">${esc(f.jenis)}</span>
           ${pratonton}
-          <a href="${url}" target="_blank" rel="noopener">Buka</a>
-          <a href="${url}" download="${esc(r.nama)}">Muat turun</a>`;
+          <div class="pautan"><a href="${url}" target="_blank" rel="noopener">Buka</a><a href="${url}" download="${esc(r.nama)}">Simpan ⬇</a></div>`;
       } catch (err) {
         el.innerHTML = `<span class="label">${esc(f.jenis)}</span><span class="ralat tunjuk">${esc(err.message)}</span>`;
       }
