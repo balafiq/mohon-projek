@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Permohonan Projek Pertanian</title>
+<style>
+  :root {
+    --hijau: #2e7d32;
+    --hijau-gelap: #1b5e20;
+    --hijau-muda: #e8f5e9;
+    --merah: #c62828;
+    --merah-muda: #ffebee;
+    --kelabu: #5f6b66;
+    --garis: #d5ddd8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #f3f6f4;
+    color: #1f2a24;
+    line-height: 1.5;
+  }
+  header {
+    background: var(--hijau);
+    color: #fff;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  header h1 { margin: 0; font-size: 1.35rem; }
+  header p { margin: 4px 0 0; opacity: .9; font-size: .95rem; }
+  main { max-width: 640px; margin: 0 auto; padding: 16px; }
+  .kad {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    margin-bottom: 16px;
+  }
+  .langkah { color: var(--kelabu); font-size: .85rem; margin: 0 0 4px; text-transform: uppercase; letter-spacing: .04em; }
+  h2 { margin: 0 0 16px; font-size: 1.2rem; }
+  .soalan { margin-bottom: 20px; }
+  .soalan > label, .soalan > .tajuk { display: block; font-weight: 600; margin-bottom: 8px; }
+  .pilihan { display: flex; gap: 10px; flex-wrap: wrap; }
+  .pilihan label {
+    flex: 1 1 140px;
+    border: 1px solid var(--garis);
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .pilihan label:has(input:checked) { border-color: var(--hijau); background: var(--hijau-muda); }
+  input[type=text], input[type=number], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--garis);
+    border-radius: 8px;
+    font: inherit;
+    background: #fff;
+  }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--hijau); outline-offset: 1px; }
+  input[type=file] { width: 100%; font: inherit; }
+  .bantuan { font-size: .85rem; color: var(--kelabu); margin-top: 4px; }
+  button {
+    font: inherit;
+    font-weight: 600;
+    border: 0;
+    border-radius: 8px;
+    padding: 12px 18px;
+    cursor: pointer;
+    width: 100%;
+  }
+  .btn-utama { background: var(--hijau); color: #fff; }
+  .btn-utama:hover { background: var(--hijau-gelap); }
+  .btn-wa { background: #25d366; color: #fff; }
+  .btn-kedua { background: #fff; color: var(--hijau); border: 1px solid var(--hijau); }
+  .btn-teks { background: none; color: var(--kelabu); text-decoration: underline; padding: 8px; }
+  .butang-kumpulan { display: grid; gap: 10px; margin-top: 8px; }
+  .notis { border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; }
+  .notis.lulus { background: var(--hijau-muda); color: var(--hijau-gelap); border: 1px solid #a5d6a7; }
+  .notis.gagal { background: var(--merah-muda); color: var(--merah); border: 1px solid #ef9a9a; }
+  .notis h3 { margin: 0 0 4px; font-size: 1.1rem; }
+  .notis ul { margin: 6px 0 0; padding-left: 20px; }
+  .ralat { color: var(--merah); font-size: .85rem; margin-top: 4px; display: none; }
+  .ralat.tunjuk { display: block; }
+  .pratonton { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .pratonton img { width: 72px; height: 72px; object-fit: cover; border-radius: 6px; border: 1px solid var(--garis); }
+  .pratonton .fail { font-size: .8rem; padding: 6px 8px; background: #eef2ef; border-radius: 6px; }
+  pre.mesej {
+    white-space: pre-wrap;
+    background: #f0f4f1;
+    border-left: 4px solid #25d366;
+    padding: 12px 14px;
+    border-radius: 6px;
+    font-family: inherit;
+    margin: 0 0 12px;
+  }
+  .info-agen { font-size: .95rem; margin-bottom: 12px; }
+  ol.arahan { padding-left: 20px; margin: 0 0 12px; }
+  .tersembunyi { display: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Permohonan Projek Pertanian</h1>
+  <p>Daerah Hilir Perak &amp; Bagan Datuk</p>
+</header>
+
+<main>
+  <!-- LANGKAH 1: SEMAKAN KELAYAKAN -->
+  <section id="langkah1" class="kad">
+    <p class="langkah">Langkah 1 daripada 3</p>
+    <h2>Semakan Kelayakan</h2>
+    <form id="borangLayak" novalidate>
+      <div class="soalan">
+        <span class="tajuk">1. Apakah status tanah projek anda?</span>
+        <div class="pilihan">
+          <label><input type="radio" name="statusTanah" value="pertanian"> Pertanian</label>
+          <label><input type="radio" name="statusTanah" value="lain"> Bukan pertanian / Lain-lain</label>
+        </div>
+      </div>
+
+      <div class="soalan">
+        <span class="tajuk">2. Adakah keluasan tanah melebihi 1 hektar (Ha)?</span>
+        <div class="pilihan">
+          <label><input type="radio" name="keluasan" value="ya"> Ya, melebihi 1 Ha</label>
+          <label><input type="radio" name="keluasan" value="tidak"> Tidak, 1 Ha atau kurang</label>
+        </div>
+      </div>
+
+      <div class="soalan">
+        <span class="tajuk">3. Adakah anda pernah menerima bantuan pertanian dalam tempoh 5 tahun lepas?</span>
+        <div class="pilihan">
+          <label><input type="radio" name="bantuan" value="tidak"> Tidak pernah</label>
+          <label><input type="radio" name="bantuan" value="ya"> Pernah</label>
+        </div>
+      </div>
+
+      <p id="ralatLayak" class="ralat">Sila jawab ketiga-tiga soalan.</p>
+      <button type="submit" class="btn-utama">Semak Kelayakan</button>
+    </form>
+
+    <div id="keputusanGagal" class="notis gagal tersembunyi" role="alert">
+      <h3>Maaf, anda tidak layak memohon.</h3>
+      <span>Sebab:</span>
+      <ul id="senaraiSebab"></ul>
+    </div>
+  </section>
+
+  <!-- LANGKAH 2: MAKLUMAT PERMOHONAN -->
+  <section id="langkah2" class="kad tersembunyi">
+    <div class="notis lulus" role="status">
+      <h3>Tahniah! Anda layak memohon projek pertanian.</h3>
+      Sila lengkapkan maklumat di bawah.
+    </div>
+
+    <p class="langkah">Langkah 2 daripada 3</p>
+    <h2>Maklumat Permohonan</h2>
+    <form id="borangMohon" novalidate>
+      <div class="soalan">
+        <label for="nama">1. Nama</label>
+        <input type="text" id="nama" autocomplete="name" placeholder="Nama penuh seperti dalam kad pengenalan">
+        <p class="ralat" data-untuk="nama">Sila isi nama.</p>
+      </div>
+
+      <div class="soalan">
+        <label for="lokasi">2. Lokasi Projek</label>
+        <input type="text" id="lokasi" placeholder="Contoh: Lot 1234, Kampung Sungai Lampam">
+        <p class="ralat" data-untuk="lokasi">Sila isi lokasi projek.</p>
+      </div>
+
+      <div class="soalan">
+        <label for="tanaman">3. Jenis Tanaman</label>
+        <input type="text" id="tanaman" placeholder="Contoh: Kelapa, Durian, Cili">
+        <p class="ralat" data-untuk="tanaman">Sila isi jenis tanaman.</p>
+      </div>
+
+      <div class="soalan">
+        <label for="gambarProjek">4. Muat naik gambar projek</label>
+        <input type="file" id="gambarProjek" accept="image/*" multiple>
+        <p class="bantuan">Boleh pilih lebih daripada satu gambar.</p>
+        <div class="pratonton" data-pratonton="gambarProjek"></div>
+        <p class="ralat" data-untuk="gambarProjek">Sila muat naik sekurang-kurangnya satu gambar projek.</p>
+      </div>
+
+      <div class="soalan">
+        <label for="kadPengenalan">5. Muat naik kad pengenalan</label>
+        <input type="file" id="kadPengenalan" accept="image/*,application/pdf" multiple>
+        <p class="bantuan">Gambar atau PDF (depan &amp; belakang).</p>
+        <div class="pratonton" data-pratonton="kadPengenalan"></div>
+        <p class="ralat" data-untuk="kadPengenalan">Sila muat naik kad pengenalan.</p>
+      </div>
+
+      <div class="soalan">
+        <label for="geranTanah">6. Muat naik geran tanah</label>
+        <input type="file" id="geranTanah" accept="image/*,application/pdf" multiple>
+        <p class="bantuan">Gambar atau PDF.</p>
+        <div class="pratonton" data-pratonton="geranTanah"></div>
+        <p class="ralat" data-untuk="geranTanah">Sila muat naik geran tanah.</p>
+      </div>
+
+      <div class="soalan">
+        <label for="mukim">7. Pilih Mukim</label>
+        <select id="mukim">
+          <option value="">-- Pilih mukim --</option>
+        </select>
+        <p class="ralat" data-untuk="mukim">Sila pilih mukim.</p>
+      </div>
+
+      <div class="butang-kumpulan">
+        <button type="submit" class="btn-utama">Teruskan</button>
+        <button type="button" class="btn-teks" id="kembaliLayak">Kembali ke semakan kelayakan</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- LANGKAH 3: HANTAR KE WHATSAPP -->
+  <section id="langkah3" class="kad tersembunyi">
+    <p class="langkah">Langkah 3 daripada 3</p>
+    <h2>Hantar kepada Agen Pengembangan Tanaman</h2>
+    <p class="info-agen">
+      Mukim: <strong id="paparMukim"></strong><br>
+      No. WhatsApp agen: <strong id="paparNombor"></strong>
+    </p>
+
+    <p><strong>Mesej yang akan dihantar:</strong></p>
+    <pre class="mesej" id="paparMesej"></pre>
+
+    <ol class="arahan">
+      <li>Tekan <strong>Hantar Mesej ke WhatsApp</strong>. Chat bersama agen akan dibuka dengan mesej siap ditulis. Tekan hantar.</li>
+      <li>Tekan <strong>Kongsi Dokumen</strong> dan pilih WhatsApp, kemudian pilih chat agen yang sama untuk menghantar gambar projek, kad pengenalan dan geran tanah.</li>
+    </ol>
+    <p class="bantuan" id="notaKongsi"></p>
+
+    <div class="butang-kumpulan">
+      <a id="pautanWa" target="_blank" rel="noopener"><button type="button" class="btn-wa">1. Hantar Mesej ke WhatsApp</button></a>
+      <button type="button" class="btn-kedua" id="kongsiDokumen">2. Kongsi Dokumen</button>
+      <button type="button" class="btn-teks" id="kembaliBorang">Kembali ubah maklumat</button>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Senarai mukim dan nombor WhatsApp Agen Pengembangan Tanaman
+  const MUKIM = [
+    { nama: "Sungai Manik / Labu Kubong", telefon: "0193776984" },
+    { nama: "Sungai Durian",              telefon: "0193074977" },
+    { nama: "Durian Sebatang",            telefon: "01113297751" },
+    { nama: "Changkat Jong",              telefon: "0108475362" },
+    { nama: "Hutan Melintang",            telefon: "0165237280" },
+    { nama: "Bagan Datuk",                telefon: "0134018473" },
+    { nama: "Rungkup",                    telefon: "0194795013" },
+    { nama: "Teluk Bharu",                telefon: "0134734476" },
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const langkah = [$("langkah1"), $("langkah2"), $("langkah3")];
+
+  function tunjukLangkah(n) {
+    langkah.forEach((el, i) => el.classList.toggle("tersembunyi", i !== n - 1));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Tukar 01xxxxxxxx kepada format antarabangsa 601xxxxxxxx untuk wa.me
+  function formatAntarabangsa(no) {
+    const digit = no.replace(/\D/g, "");
+    return digit.startsWith("0") ? "6" + digit : digit;
+  }
+
+  // Isi pilihan mukim
+  MUKIM.forEach((m, i) => {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = `${i + 1}. ${m.nama}`;
+    $("mukim").appendChild(opt);
+  });
+
+  // ---------- Langkah 1: Semakan kelayakan ----------
+  $("borangLayak").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const f = e.target;
+    const status = f.statusTanah.value;
+    const keluasan = f.keluasan.value;
+    const bantuan = f.bantuan.value;
+
+    $("keputusanGagal").classList.add("tersembunyi");
+    if (!status || !keluasan || !bantuan) {
+      $("ralatLayak").classList.add("tunjuk");
+      return;
+    }
+    $("ralatLayak").classList.remove("tunjuk");
+
+    const sebab = [];
+    if (status !== "pertanian") sebab.push("Status tanah mestilah pertanian.");
+    if (keluasan !== "ya") sebab.push("Keluasan tanah mestilah melebihi 1 hektar.");
+    if (bantuan !== "tidak") sebab.push("Pemohon tidak boleh pernah menerima bantuan dalam tempoh 5 tahun lepas.");
+
+    if (sebab.length) {
+      $("senaraiSebab").innerHTML = "";
+      sebab.forEach((s) => {
+        const li = document.createElement("li");
+        li.textContent = s;
+        $("senaraiSebab").appendChild(li);
+      });
+      $("keputusanGagal").classList.remove("tersembunyi");
+      return;
+    }
+    tunjukLangkah(2);
+  });
+
+  // ---------- Langkah 2: Borang permohonan ----------
+  const MEDAN_FAIL = ["gambarProjek", "kadPengenalan", "geranTanah"];
+
+  MEDAN_FAIL.forEach((id) => {
+    $(id).addEventListener("change", () => {
+      const kotak = document.querySelector(`[data-pratonton="${id}"]`);
+      kotak.innerHTML = "";
+      [...$(id).files].forEach((fail) => {
+        if (fail.type.startsWith("image/")) {
+          const img = document.createElement("img");
+          img.src = URL.createObjectURL(fail);
+          img.alt = fail.name;
+          kotak.appendChild(img);
+        } else {
+          const span = document.createElement("span");
+          span.className = "fail";
+          span.textContent = fail.name;
+          kotak.appendChild(span);
+        }
+      });
+    });
+  });
+
+  function setRalat(id, ada) {
+    document.querySelector(`.ralat[data-untuk="${id}"]`).classList.toggle("tunjuk", ada);
+  }
+
+  function binaMesej(nama, lokasi, tanaman) {
+    return [
+      "Assalamualaikum/ salam sejahtera",
+      `Saya ${nama},`,
+      `Lokasi di ${lokasi}`,
+      `Sedang mengusahakan tanaman ${tanaman}`,
+      `Di ${lokasi}`,
+      "Berikut dikepilkan dokumen untuk rujukan Tuan/ Puan.",
+      "Terima kasih",
+    ].join("\n");
+  }
+
+  let semuaFail = [];
+  let mesejSemasa = "";
+
+  $("borangMohon").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const nama = $("nama").value.trim();
+    const lokasi = $("lokasi").value.trim();
+    const tanaman = $("tanaman").value.trim();
+    const mukimIdx = $("mukim").value;
+
+    let sah = true;
+    [["nama", nama], ["lokasi", lokasi], ["tanaman", tanaman], ["mukim", mukimIdx]].forEach(([id, v]) => {
+      setRalat(id, !v);
+      if (!v) sah = false;
+    });
+    MEDAN_FAIL.forEach((id) => {
+      const kosong = $(id).files.length === 0;
+      setRalat(id, kosong);
+      if (kosong) sah = false;
+    });
+    if (!sah) {
+      document.querySelector("#borangMohon .ralat.tunjuk")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    const mukim = MUKIM[Number(mukimIdx)];
+    mesejSemasa = binaMesej(nama, lokasi, tanaman);
+    semuaFail = MEDAN_FAIL.flatMap((id) => [...$(id).files]);
+
+    $("paparMukim").textContent = mukim.nama;
+    $("paparNombor").textContent = mukim.telefon;
+    $("paparMesej").textContent = mesejSemasa;
+    $("pautanWa").href =
+      `https://wa.me/${formatAntarabangsa(mukim.telefon)}?text=${encodeURIComponent(mesejSemasa)}`;
+
+    const bolehKongsi = navigator.canShare && navigator.canShare({ files: semuaFail });
+    $("notaKongsi").textContent = bolehKongsi
+      ? ""
+      : "Peranti/pelayar ini tidak menyokong perkongsian fail terus. Sila lampirkan dokumen secara manual dalam chat WhatsApp agen (ikon klip kertas 📎).";
+
+    tunjukLangkah(3);
+  });
+
+  $("kembaliLayak").addEventListener("click", () => tunjukLangkah(1));
+
+  // ---------- Langkah 3: Hantar ----------
+  $("kongsiDokumen").addEventListener("click", async () => {
+    if (!(navigator.canShare && navigator.canShare({ files: semuaFail }))) {
+      alert("Perkongsian fail tidak disokong pada peranti ini. Sila lampirkan gambar projek, kad pengenalan dan geran tanah secara manual dalam chat WhatsApp agen.");
+      return;
+    }
+    try {
+      await navigator.share({ files: semuaFail, title: "Dokumen Permohonan Projek Pertanian" });
+    } catch (err) {
+      if (err.name !== "AbortError") alert("Gagal berkongsi dokumen: " + err.message);
+    }
+  });
+
+  $("kembaliBorang").addEventListener("click", () => tunjukLangkah(2));
+</script>
+</body>
+</html>
